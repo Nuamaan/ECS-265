@@ -1,6 +1,6 @@
 # Promise: A Blockchain for Verbal Contracts.
 
-# TECHNOLOGY INNOVATION
+## TECHNOLOGY INNOVATION
 
 Our research team has chosen to embark on an original project that aims to revolutionize the way that verbal agreements and oral contracts are made. Making informal agreements is so prevalent in our global society that many often neglect to take into consideration the ramifications that such agreements can hold. These agreements tend to resemble the following form --- “May I borrow some money to get gas? I will pay you back.” Our team confidently conjectures that the vast majority of the world’s population has engaged in this sort of impromptu agreement. Now that we have established that these agreements are frequently made, what happens in situations when they are kept and when they are broken? After the completion of the agreed upon terms, if the agreement is kept, both parties are able to walk away content. However, if a disagreement arises about the exact details of the unwritten agreement, both parties will likely walk away aggrieved or end up on opposite sides of a formal lawsuit. With our technological innovation, we aim to put an end to the majority of lawsuits that stem from the broken terms of an oral contract. The system we will create will allow users to quickly and easily generate a binding agreement between two or more parties, and these agreements will be authenticated by a blockchain.
 
