@@ -54,7 +54,7 @@ contract Promise{
     /*this function is used by the other party to view the promise created by the first party*/
     
     function viewPromise(uint256 ind) public view returns(string memory){
-        require(msg.sender==unConfirmedProm[ind].P2.P);
+        require(msg.sender==unConfirmedProm[ind].P2.P || msg.sender==unConfirmedProm[ind].P1.P || msg.sender==manager);
         return unConfirmedProm[ind].oath;
         
         
