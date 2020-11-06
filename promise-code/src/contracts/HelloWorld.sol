@@ -70,8 +70,18 @@ contract Promise{
         require(unConfirmedProm[ind].P2.P==msg.sender);
         unConfirmedProm[ind].P2.commitment=true;
         unConfirmedProm[ind].status=true;
-        ConfirmedProm[ind]=unConfirmedProm[ind];
+        confirmpromise(ind);
         manager.transfer(msg.value);
+    }
+    
+   
+   /* this function is used to confirm promises and transfer them from
+   unConfirmedProm to ConfirmedProm mapping*/
+   
+    function confirmpromise(uint256 ind) internal {
+        require(msg.sender==unConfirmedProm[ind].P1.P || msg.sender==unConfirmedProm[ind].P2.P);
+        require(unConfirmedProm[ind].status==true);
+        ConfirmedProm[ind]=unConfirmedProm[ind];
     }
     
     
