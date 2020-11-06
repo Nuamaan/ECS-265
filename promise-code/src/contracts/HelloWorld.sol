@@ -1,32 +1,78 @@
-// Specifies the version of Solidity, using semantic versioning.
-// Learn more: https://solidity.readthedocs.io/en/v0.5.10/layout-of-source-files.html#pragma
-pragma solidity ^0.5.10;
+pragma solidity ^0.5.1;
 
-// Defines a contract named `HelloWorld`.
-// A contract is a collection of functions and data (its state).
-// Once deployed, a contract resides at a specific address on the Ethereum blockchain.
-// Learn more: https://solidity.readthedocs.io/en/v0.5.10/structure-of-a-contract.html
-contract HelloWorld {
-
-    // Declares a state variable `message` of type `string`.
-    // State variables are variables whose values are permanently stored in contract storage.
-    // The keyword `public` makes variables accessible from outside a contract
-    // and creates a function that other contracts or clients can call to access the value.
-    string public message;
-
-    // Similar to many class-based object-oriented languages, a constructor is
-    // a special function that is only executed upon contract creation.
-    // Constructors are used to initialize the contract's data.
-    // Learn more: https://solidity.readthedocs.io/en/v0.5.10/contracts.html#constructors
-    constructor(string memory initMessage) public {
-        // Accepts a string argument `initMessage` and sets the value
-        // into the contract's `message` storage variable).
-        message = initMessage;
+contract Promise{
+    uint256 public totPromise;//to index the promises
+    address payable manager;
+    mapping(uint256=>Prom) unConfirmedProm;// to hold unconfirmed promises.
+    mapping(uint256=>Prom) ConfirmedProm;// to hold confirmed promises.
+    
+    constructor() public {
+        manager=msg.sender;
     }
-
-    // A public function that accepts a string argument
-    // and updates the `message` storage variable.
-    function update(string memory newMessage) public {
-        message = newMessage;
+    
+    
+    modifier isManager(){
+        require(msg.sender==manager);
+        _;
     }
+    
+    /* this event is created to notify the other party of the promise created*/
+    event notify(
+        address P2,
+        uint256 ind
+        );
+    
+    
+    struct partyStatus{  
+        address P;
+        bool commitment;
+    }
+    
+    struct Prom{
+        uint256 promIndex;
+        partyStatus P1;
+        partyStatus P2;
+        string oath;
+        bool status;
+        
+    }
+    
+    /*this function is used by one of the parties to create the unConfirmedPrompromise,
+    the address of the second party and the oath are also passed as parameteres.*/
+     
+    function addPromise(address builder,address P2,string memory _oath) public payable {
+        require(msg.sender==builder || msg.sender==P2);
+        totPromise++;
+
+        unConfirmedProm[totPromise]=Prom(totPromise,partyStatus(builder,true),partyStatus(P2,false), _oath,false);
+        manager.transfer(msg.value);
+        emit notify(P2,totPromise); 
+        
+        
+    }
+    
+    /*this function is used by the other party to view the promise created by the first party*/
+    
+    function viewPromise(uint256 ind) public view returns(string memory){
+        require(msg.sender==unConfirmedProm[ind].P2.P);
+        return unConfirmedProm[ind].oath;
+        
+        
+        
+        
+    }
+    
+    
+    
+    /* this function is used by the other party to sign the promise and hence 
+    confirms the promise*/
+    function signPromise(uint256 ind) public payable {
+        require(unConfirmedProm[ind].P2.P==msg.sender);
+        unConfirmedProm[ind].P2.commitment=true;
+        unConfirmedProm[ind].status=true;
+        ConfirmedProm[ind]=unConfirmedProm[ind];
+        manager.transfer(msg.value);
+    }
+    
+    
 }
