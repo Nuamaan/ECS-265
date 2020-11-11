@@ -3,9 +3,9 @@ pragma solidity ^0.5.1;
 contract Promise{
     uint256 public totPromise;//to index the promises
     address payable manager;
-    mapping(uint256=>Prom) unConfirmedProm;// to hold unconfirmed promises initially before they are signed by the participating parties.
-    mapping(uint256=>Prom) ConfirmedProm;// to hold confirmed promises.
-    mapping(uint256=>Prom) rejectedProm;// to hold rejected promises i.e promises rejected by any one party.
+    mapping(uint256=>Prom) unConfirmedProm;         // to hold unconfirmed promises initially before they are signed by the participating parties.
+    mapping(uint256=>Prom) ConfirmedProm;           // to hold confirmed promises.
+    mapping(uint256=>Prom) rejectedProm;     // to hold rejected promises i.e promises rejected by any one party.
     
     
     constructor() public {
@@ -61,11 +61,13 @@ contract Promise{
      
     function addPromise(address builder,address P2,string memory _oath) public payable {
         require(msg.sender==builder);
+        manager.transfer(msg.value);        /*ethers are passed to the manager,,,calling addPromise function would cost the builder*/
+        
         totPromise++;
 
         unConfirmedProm[totPromise]=Prom(totPromise,partyStatus(builder,true),partyStatus(P2,false), _oath,false);
         
-        manager.transfer(msg.value);        /*ethers are passed to the manager,,,calling addPromise function would cost the builder*/
+        
         
         emit notify(P2,totPromise,_oath);   /* the event is emitted,,,, the other part gets to know about the promoise being created 
                                             by its name as one of the involved parties*/
@@ -80,7 +82,7 @@ contract Promise{
     /*this function is used by the involved parties to view the promise */
     
     function viewPromise(uint256 ind) public view returns(string memory){
-        require(msg.sender==unConfirmedProm[ind].P2.P || msg.sender==unConfirmedProm[ind].P1.P || msg.sender==manager||msg.sender==ConfirmedProm[ind].P2.P || msg.sender==ConfirmedProm[ind].P1.P);
+        require(msg.sender==unConfirmedProm[ind].P1.P || msg.sender==unConfirmedProm[ind].P2.P);
         return unConfirmedProm[ind].oath;
         
         
@@ -95,7 +97,7 @@ contract Promise{
     /* this function is used by the other party to sign the promise and hence 
     confirms the promise*/
     function signPromise(uint256 ind) public payable {
-        require(unConfirmedProm[ind].P2.P==msg.sender);
+        require(msg.sender==unConfirmedProm[ind].P2.P);
         unConfirmedProm[ind].P2.commitment=true;
         unConfirmedProm[ind].status=true;
         confirmpromise(ind);
@@ -109,8 +111,8 @@ contract Promise{
     
     /*this function is used by the non-builder party to reject the promise. 
     The promise after being rejected is added to the rejectPromise mapping */
-    function rejectPromise(uint256 ind) public payable {
-        require(unConfirmedProm[ind].P2.P==msg.sender);
+    function rejectPromise(uint256 ind) public  {
+        require(msg.sender==unConfirmedProm[ind].P2.P);
         unConfirmedProm[ind].status=false;
         rejectedProm[ind]=unConfirmedProm[ind];
         
