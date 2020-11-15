@@ -1,8 +1,17 @@
 {
+    "server": {
+       "baseDir": [
+           "./src",
+           "./build/contracts"
+       ],
+       "routes": {
+           "vendor": "./node_modules"
+       }  
+    },
     "project": {
         "info": {
-            "name": "Hello World",
-            "title": "Hello World"
+            "name": "Promise",
+            "title": "Promise"
         }
     },
     "environments": [
@@ -33,8 +42,8 @@
                     "value": "Hello World!"
                 }
             ],
-            "name": "HelloWorld",
-            "source": "/contracts/HelloWorld.sol"
+            "name": "Promise",
+            "source": "/contracts/Promise.sol"
         }
     ],
     "wallets": [

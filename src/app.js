@@ -1,5 +1,5 @@
 // The object 'Contracts' is injected here, which contains all data for all contracts, keyed on contract name:
-// Contracts['HelloWorld'] = {
+// Contracts['Promise'] = {
 //  abi: [],
 //  address: "0x..",
 //  endpoint: "http://...."
@@ -7,14 +7,14 @@
 
 // Creates an instance of the smart contract, passing it as a property,
 // which allows web3.js to interact with it.
-function HelloWorld(Contract) {
+function Promise(Contract) {
     this.web3 = null;
     this.instance = null;
     this.Contract = Contract;
 }
 
-// Initializes the `HelloWorld` object and creates an instance of the web3.js library.
-HelloWorld.prototype.init = function() {
+// Initializes the `Promise` object and creates an instance of the web3.js library.
+Promise.prototype.init = function() {
     // Creates a new Web3 instance using a provider
     // Learn more: https://web3js.readthedocs.io/en/v1.2.0/web3.html
     this.web3 = new Web3(
@@ -33,7 +33,7 @@ HelloWorld.prototype.init = function() {
 };
 
 // Gets the `message` value stored on the instance of the contract.
-HelloWorld.prototype.getMessage = function(cb) {
+Promise.prototype.getMessage = function(cb) {
     this.instance.message(function(error, result) {
         cb(error, result);
     });
@@ -41,7 +41,7 @@ HelloWorld.prototype.getMessage = function(cb) {
 
 // Updates the `message` value on the instance of the contract.
 // This function is triggered when someone clicks the "send" button in the interface.
-HelloWorld.prototype.setMessage = function() {
+Promise.prototype.setMessage = function() {
     var that = this;
     var msg = $("#message-input").val();
     this.showLoader(true);
@@ -78,7 +78,7 @@ HelloWorld.prototype.setMessage = function() {
 };
 
 // Waits for receipt of transaction
-HelloWorld.prototype.waitForReceipt = function(hash, cb) {
+Promise.prototype.waitForReceipt = function(hash, cb) {
     var that = this;
 
     // Checks for transaction receipt using web3.js library method
@@ -102,14 +102,14 @@ HelloWorld.prototype.waitForReceipt = function(hash, cb) {
 
 // Gets the latest block number by using the web3js `getBlockNumber` function
 // Learn more: https://web3js.readthedocs.io/en/v1.2.1/web3-eth.html#getblocknumber
-HelloWorld.prototype.getBlockNumber = function(cb) {
+Promise.prototype.getBlockNumber = function(cb) {
     this.web3.eth.getBlockNumber(function(error, result) {
         cb(error, result);
     });
 };
 
 // Hides or displays the loader when performing async operations
-HelloWorld.prototype.showLoader = function(show) {
+Promise.prototype.showLoader = function(show) {
     document.getElementById("loader").style.display = show ? "block" : "none";
     document.getElementById("message-button").style.display = show
         ? "none"
@@ -118,7 +118,7 @@ HelloWorld.prototype.showLoader = function(show) {
 
 // Calls the functions `getMessage` and `getBlockNumber` defined above, then
 // sets the DOM element texts to the values they return or displays an error message
-HelloWorld.prototype.updateDisplay = function() {
+Promise.prototype.updateDisplay = function() {
     var that = this;
     this.getMessage(function(error, result) {
         if (error) {
@@ -141,7 +141,7 @@ HelloWorld.prototype.updateDisplay = function() {
 };
 
 // Binds setMessage function to the button defined in app.html
-HelloWorld.prototype.bindButton = function() {
+Promise.prototype.bindButton = function() {
     var that = this;
 
     $(document).on("click", "#message-button", function() {
@@ -151,33 +151,33 @@ HelloWorld.prototype.bindButton = function() {
 
 // Remove the welcome content, and display the main content.
 // Called once a contract has been deployed
-HelloWorld.prototype.updateDisplayContent = function() {
+Promise.prototype.updateDisplayContent = function() {
     this.hideWelcomeContent();
     this.showMainContent();
 };
 
 // A contract will not have its address set until it has been deployed
-HelloWorld.prototype.hasContractDeployed = function() {
+Promise.prototype.hasContractDeployed = function() {
     return this.instance && this.instance.address;
 };
 
-HelloWorld.prototype.hideWelcomeContent = function() {
+Promise.prototype.hideWelcomeContent = function() {
     $('#welcome-container').addClass('hidden');
 };
 
-HelloWorld.prototype.showMainContent = function() {
+Promise.prototype.showMainContent = function() {
     $('#main-container').removeClass('hidden');
 };
 
-// JavaScript boilerplate to create the instance of the `HelloWorld` object
+// JavaScript boilerplate to create the instance of the `Promise` object
 // defined above, and show the HTML elements on the page:
-HelloWorld.prototype.main = function() {
+Promise.prototype.main = function() {
     $(".blocknumber").show();
     $(".message").show();
     this.updateDisplay();
 };
 
-HelloWorld.prototype.onReady = function() {
+Promise.prototype.onReady = function() {
     this.init();
     // Don't show interactive UI elements like input/button until
     // the contract has been deployed.
@@ -189,9 +189,9 @@ HelloWorld.prototype.onReady = function() {
 };
 
 if (typeof Contracts === "undefined")
-    var Contracts = { HelloWorld: { abi: [] } };
+    var Contracts = { Promise: { abi: [] } };
 
-var helloWorld = new HelloWorld(Contracts["HelloWorld"]);
+var helloWorld = new Promise(Contracts["Promise"]);
 
 $(document).ready(function() {
     helloWorld.onReady();
