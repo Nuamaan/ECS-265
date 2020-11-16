@@ -1,0 +1,148 @@
+p {
+  font-size: large;
+  color: #7d7e7e;
+}
+
+h1 {
+    padding: 10px 20px;
+    color: #174f7e;
+    font-weight: bold;
+}
+
+body {
+    background-color: #d7dce2;
+}
+.cart {
+  padding: 20px 50px;
+}
+.boxes {
+  margin-top: 20px;
+}
+
+.verify {
+  margin-top: 20px;
+}
+
+.submit {
+  margin-top:20px;
+  float: right;
+}
+
+.pagecheckout {
+  padding: 20px 50px;
+}
+.description {
+  font-size: 150%;
+  margin-top:50px;
+}
+
+.inventory-message {
+  margin-left: 20px;
+  font-weight: bold;
+  font-size: 120%;
+}
+
+
+.product {
+  margin-top: 30px;
+  margin-left: 20px;
+  max-height:300px;
+  max-width:100%;
+}
+.figure {
+
+}
+
+.rating-active:before {
+   content: "\2605";
+   position: absolute;
+}
+.rating {
+  display: inline;
+  margin-left: 10px;
+  margin-top: 10px;
+  float:right;
+}
+.rating > span {
+  display: inline-block;
+  position: relative;
+  width: 1.1em;
+}
+
+@media (min-width: 1200px) {
+    .container{
+        max-width: 970px;
+    }
+}
+
+.center
+{
+  text-align: center;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+
+}
+
+.centerElement {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+
+.centerText {
+  text-align: center;
+}
+
+.center2 {
+  margin-left: auto;
+  margin-right: auto;
+  width: 8em
+}
+
+.center-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 70vh;
+  margin-left: 100;
+}
+
+button {
+  background-color: white;
+  border: none;
+  color: #7d7e7e;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.divider{
+  width:220px;
+  height:auto;
+  display:inline-block;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 50px;
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+}
+
+
+
