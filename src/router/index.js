@@ -66,12 +66,6 @@ const routes = [
     props: true
   },
   {
-    path: '/contracts',
-    name: 'Contracts',
-    component: Contracts,
-    props: true
-  },
-  {
     path: '/confirmation',
     name: 'Confirmation',
     component: Confirmation,

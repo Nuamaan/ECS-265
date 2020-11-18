@@ -6,7 +6,7 @@ import Metamask from '../components/Metamask'
 export default {
  name: 'test',
  beforeCreate () {
-    console.log('registerWeb3 Action dispatched from casino-dapp.vue')
+    console.log('registerWeb3 Action dispatched from Test.vue')
     this.$store.dispatch('registerWeb3')
   },
  components: {

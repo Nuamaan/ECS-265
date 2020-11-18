@@ -43,13 +43,19 @@ export default {
       }
     }
   },
-  components: { MyHeader, MyFooter },
-  created: function() {
-    axios.get('/static/products.json')
-    .then((response) =>{
-      this.products=response.data.products;
-      console.log(this.products);
-    });
-  }
+  components: { MyHeader, MyFooter }
+  // created: function() {
+    // axios.get('/static/products.json')
+    // .then((response) =>{
+    //   this.products=response.data.products;
+    //   console.log(this.products);
+    // });
+    // axios.get('/static/products.json').then((response) =>{
+    //   this.products=response.data.products;
+    //   console.log(this.products);
+    // }).catch((error) => {
+    //     console.warn('Not good man :(');
+    // });
+  // }
 }
 </script>
