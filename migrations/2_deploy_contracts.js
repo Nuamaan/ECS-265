@@ -1,5 +1,5 @@
-const Promis = artifacts.require("Promise");
+const Promise = artifacts.require("Promise");
 
 module.exports = function(deployer) {
-  deployer.deploy(Promis);
+  deployer.deploy(Promise);
 };
