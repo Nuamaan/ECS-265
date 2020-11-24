@@ -1,244 +1,198 @@
-App = {
+// The object 'Contracts' is injected here, which contains all data for all contracts, keyed on contract name:
+// Contracts['Promise'] = {
+//  abi: [],
+//  address: "0x..",
+//  endpoint: "http://...."
+// }
 
-    loading: false,
-    contracts: {},
-
-    load: async () => {
-        // Load app...
-        //console.log("app loading...")
-        await App.loadWeb3()
-        await App.loadAccount()
-        await App.loadContract()
-        await App.render()
-    },
-
-// https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
-loadWeb3: async () => {
-    if (typeof web3 !== 'undefined') {
-      App.web3Provider = web3.currentProvider
-      web3 = new Web3(web3.currentProvider)
-    } else {
-        // If no injected web3 instance is detected, fallback to Ganache.
-        App.web3Provider = new web3.providers.HttpProvider('http://127.0.0.1:7545');
-        web3 = new Web3(App.web3Provider);
-    //   window.alert("Please connect to Metamask.")
-    }
-    // Modern dapp browsers...
-    if (window.ethereum) {
-      window.web3 = new Web3(ethereum)
-      try {
-        // Request account access if needed
-        await ethereum.enable()
-        // Acccounts now exposed
-        web3.eth.sendTransaction({/* ... */})
-      } catch (error) {
-        // User denied account access...
-      }
-    }
-    // Legacy dapp browsers...
-    else if (window.web3) {
-      App.web3Provider = web3.currentProvider
-      window.web3 = new Web3(web3.currentProvider)
-      // Acccounts always exposed
-      web3.eth.sendTransaction({/* ... */})
-    }
-    // Non-dapp browsers...
-    else {
-      console.log('Non-Ethereum browser detected. You should consider trying MetaMask!')
-    }
-  },
-
-  loadAccount: async () => {
-    // Set the current blockchain account
-    App.account = web3.eth.accounts[0]
-  },
-
-  loadContract: async () => {
-    // Create a JavaScript version of the smart contract
-    const todoList = await $.getJSON('TodoList.json')
-    App.contracts.TodoList = TruffleContract(todoList)
-    App.contracts.TodoList.setProvider(App.web3Provider)
-
-    // Hydrate the smart contract with values from the blockchain
-    App.todoList = await App.contracts.TodoList.deployed()
-  },
-
-  render: async () => {
-    // Prevent double render
-    if (App.loading) {
-      return
-    }
-
-    // Update app loading state
-    App.setLoading(true)
-
-    // Render Account
-    $('#account').html(App.account)
-
-    // Render Tasks
-    await App.renderTasks()
-
-    // Update loading state
-    App.setLoading(false)
-  },
-
-  renderTasks: async () => {
-    // Load the total task count from the blockchain
-    const taskCount = await App.todoList.taskCount()
-    const $taskTemplate = $('.taskTemplate')
-
-    // Render out each task with a new task template
-    for (var i = 1; i <= taskCount; i++) {
-      // Fetch the task data from the blockchain
-      const task = await App.todoList.tasks(i)
-      const taskId = task[0].toNumber()
-      const taskContent = task[1]
-      const taskCompleted = task[2]
-
-      // Create the html for the task
-      const $newTaskTemplate = $taskTemplate.clone()
-      $newTaskTemplate.find('.content').html(taskContent)
-      $newTaskTemplate.find('input')
-                      .prop('name', taskId)
-                      .prop('checked', taskCompleted)
-                      .on('click', App.toggleCompleted)
-
-      // Put the task in the correct list
-      if (taskCompleted) {
-        $('#completedTaskList').append($newTaskTemplate)
-      } else {
-        $('#taskList').append($newTaskTemplate)
-      }
-
-      // Show the task
-      $newTaskTemplate.show()
-    }
-  },
-
-  createTask: async () => {
-    App.setLoading(true)
-    const content = $('#newTask').val()
-    await App.todoList.createTask(content)
-    window.location.reload()
-  },
-
-  toggleCompleted: async (e) => {
-    App.setLoading(true)
-    const taskId = e.target.name
-    await App.todoList.toggleCompleted(taskId)
-    window.location.reload()
-  },
-
-  setLoading: (boolean) => {
-    App.loading = boolean
-    const loader = $('#loader')
-    const content = $('#content')
-    if (boolean) {
-      loader.show()
-      content.hide()
-    } else {
-      loader.hide()
-      content.show()
-    }
-  },
-
-  loadAccount: async () => {
-      App.account = web3.eth.accounts[0]
-  },
-
-  loadContract: async () => {
-      const todoList = await $.getJSON('TodoList.json')
-      App.contracts.TodoList = TruffleContract(todoList)
-      App.contracts.TodoList.setProvider(App.web3Provider)
-      //console.log(todoList)
-
-      // Hydrate the smart contract with values from the blockchain
-      App.todoList = await App.contracts.TodoList.deployed()
-  },
-
-  render: async () => {
-
-    // Prevent double render
-    if (App.loading){
-        return
-    }
-
-    // Update app loading state
-    App.setLoading(true)
-
-    // Render Account
-    $('#account').html(App.account)
-
-    // Render Task
-    await App.renderTasks()
-
-    // Updtae loading state
-    App.setLoading(false)
-  },
-
-  renderTasks: async () => {
-      // Load the task from the blockchain
-      const taskCount = await App.todoList.taskCount()
-      const $taskTemplate = $('.taskTemplate')
-
-      // Render out each task with a new task template
-      for (var i = 1; i <= taskCount; i++) {
-          // Fetch the task data from the blockchain
-          const task = await App.todoList.tasks(i)
-          const taskId = task[0].toNumber()
-          const taskContent = task[1]
-          const taskCompleted = task[2]
-
-          // Create the html for the task
-          const $newTaskTemplate = $taskTemplate.clone()
-          $newTaskTemplate.find('.content').html(taskContent)
-          $newTaskTemplate.find('input')
-                          .prop('name', taskId)
-                          .prop('checked', taskCompleted)
-                          .on('click', App.toggleCompleted)
-
-          // Put the task in the correct list
-          if (taskCompleted){
-              $('#completedTaskList').append($newTaskTemplate)
-          }else{
-              $('#taskList').append($newTaskTemplate)
-          }
-          
-          // Show the task
-          $newTaskTemplate.show()
-      }
-  },
-
-  createTask: async () => {
-    App.setLoading(true)
-    const content = $('#newTask').val()
-    await App.todoList.createTask(content)
-    window.location.reload()
-  },
-
-  taggleCompleted: async(e) => {
-    App.setLoading(true)
-    const taskId = e.target.name
-    await App.todoList.toggleCompleted(taskId)
-    window.location.reload()
-  },
-
-  setLoading: (boolean) => {
-      App.loading = boolean
-      const loader = $('#loader')
-      const content = $('#content')
-      if (boolean){
-          loader.show()
-          content.hide()
-      }else{
-          loader.hide()
-          content.show()
-      }
-  }
+// Creates an instance of the smart contract, passing it as a property,
+// which allows web3.js to interact with it.
+function Promise(Contract) {
+    this.web3 = null;
+    this.instance = null;
+    this.Contract = Contract;
 }
 
-$(() => {
-    $(window).load(() => {
-        App.load()
-    })
-})
+// Initializes the `Promise` object and creates an instance of the web3.js library.
+Promise.prototype.init = function() {
+    // Creates a new Web3 instance using a provider
+    // Learn more: https://web3js.readthedocs.io/en/v1.2.0/web3.html
+    this.web3 = new Web3(
+        (window.web3 && window.web3.currentProvider) ||
+            new Web3.providers.HttpProvider(this.Contract.endpoint)
+    );
+
+    // Creates the contract interface using the web3.js contract object
+    // Learn more: https://web3js.readthedocs.io/en/v1.2.0/web3-eth-contract.html#new-contract
+    var contract_interface = this.web3.eth.contract(this.Contract.abi);
+
+    // Defines the address of the contract instance
+    this.instance = this.Contract.address
+        ? contract_interface.at(this.Contract.address)
+        : { message: () => {} };
+};
+
+// Gets the `message` value stored on the instance of the contract.
+Promise.prototype.getMessage = function(cb) {
+    this.instance.message(function(error, result) {
+        cb(error, result);
+    });
+};
+
+// Updates the `message` value on the instance of the contract.
+// This function is triggered when someone clicks the "send" button in the interface.
+Promise.prototype.setMessage = function() {
+    var that = this;
+    var msg = $("#message-input").val();
+    this.showLoader(true);
+
+    // Sets message using the public update function of the smart contract
+    this.instance.update(
+        msg,
+        {
+            from: window.web3.eth.accounts[0],
+            gas: 100000,
+            gasPrice: 100000,
+            gasLimit: 100000
+        },
+        function(error, txHash) {
+            if (error) {
+                console.log(error);
+                that.showLoader(false);
+            }
+            // If success, wait for confirmation of transaction,
+            // then clear form value
+            else {
+                that.waitForReceipt(txHash, function(receipt) {
+                    that.showLoader(false);
+                    if (receipt.status) {
+                        console.log({ receipt });
+                        $("#message-input").val("");
+                    } else {
+                        console.log("error");
+                    }
+                });
+            }
+        }
+    );
+};
+
+// Waits for receipt of transaction
+Promise.prototype.waitForReceipt = function(hash, cb) {
+    var that = this;
+
+    // Checks for transaction receipt using web3.js library method
+    this.web3.eth.getTransactionReceipt(hash, function(err, receipt) {
+        if (err) {
+            error(err);
+        }
+        if (receipt !== null) {
+            // Transaction went through
+            if (cb) {
+                cb(receipt);
+            }
+        } else {
+            // Try again in 2 second
+            window.setTimeout(function() {
+                that.waitForReceipt(hash, cb);
+            }, 2000);
+        }
+    });
+};
+
+// Gets the latest block number by using the web3js `getBlockNumber` function
+// Learn more: https://web3js.readthedocs.io/en/v1.2.1/web3-eth.html#getblocknumber
+Promise.prototype.getBlockNumber = function(cb) {
+    this.web3.eth.getBlockNumber(function(error, result) {
+        cb(error, result);
+    });
+};
+
+// Hides or displays the loader when performing async operations
+Promise.prototype.showLoader = function(show) {
+    document.getElementById("loader").style.display = show ? "block" : "none";
+    document.getElementById("message-button").style.display = show
+        ? "none"
+        : "block";
+};
+
+// Calls the functions `getMessage` and `getBlockNumber` defined above, then
+// sets the DOM element texts to the values they return or displays an error message
+Promise.prototype.updateDisplay = function() {
+    var that = this;
+    this.getMessage(function(error, result) {
+        if (error) {
+            $(".error").show();
+            return;
+        }
+        $("#message").text(result);
+
+        that.getBlockNumber(function(error, result) {
+            if (error) {
+                $(".error").show();
+                return;
+            }
+            $("#blocknumber").text(result);
+            setTimeout(function() {
+                that.updateDisplay();
+            }, 1000);
+        });
+    });
+};
+
+// Binds setMessage function to the button defined in app.html
+Promise.prototype.bindButton = function() {
+    var that = this;
+
+    $(document).on("click", "#message-button", function() {
+        that.setMessage();
+    });
+};
+
+// Remove the welcome content, and display the main content.
+// Called once a contract has been deployed
+Promise.prototype.updateDisplayContent = function() {
+    this.hideWelcomeContent();
+    this.showMainContent();
+};
+
+// A contract will not have its address set until it has been deployed
+Promise.prototype.hasContractDeployed = function() {
+    return this.instance && this.instance.address;
+};
+
+Promise.prototype.hideWelcomeContent = function() {
+    $('#welcome-container').addClass('hidden');
+};
+
+Promise.prototype.showMainContent = function() {
+    $('#main-container').removeClass('hidden');
+};
+
+// JavaScript boilerplate to create the instance of the `Promise` object
+// defined above, and show the HTML elements on the page:
+Promise.prototype.main = function() {
+    $(".blocknumber").show();
+    $(".message").show();
+    this.updateDisplay();
+};
+
+Promise.prototype.onReady = function() {
+    this.init();
+    // Don't show interactive UI elements like input/button until
+    // the contract has been deployed.
+    if (this.hasContractDeployed()) {
+        this.updateDisplayContent();
+        this.bindButton();
+    }
+    this.main();
+};
+
+if (typeof Contracts === "undefined")
+    var Contracts = { Promise: { abi: [] } };
+
+var helloWorld = new Promise(Contracts["Promise"]);
+
+$(document).ready(function() {
+    helloWorld.onReady();
+});

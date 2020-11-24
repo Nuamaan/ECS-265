@@ -24,23 +24,10 @@
           <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" placeholder="Contract Title"></textarea>
           <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Write your contract here..."></textarea>
         </div>
-<<<<<<< Updated upstream
-      </form>
-      </main>
-            <p>Want to share your contract?</p>
-            <!-- <div v-if="webShareApiSupported">
-              <img
-                src="@/assets/gmail.png"
-                @click="shareViaWebShare"
-              >
-            </div> -->
-            <div class="center">
-=======
       </form> -->
     </main>
       <!-- <p>Want to share your contract?</p> -->
       <div class="center">
->>>>>>> Stashed changes
         <button type="button" class="btn btn-light btn-lg" v-on:click="showConfirmation">Send &amp; Sign Message</button>
       </div>
       <div class="center">
@@ -101,28 +88,6 @@ export default {
       this.$router.push({name: 'Confirmation'});
     }
   },
-<<<<<<< Updated upstream
-  components: { MyHeader, MyFooter },
-  created: function() {
-    axios.get('/static/products.json')
-    .then((response) =>{
-      this.products=response.data.products;
-      console.log(this.products);
-    });
-  },
-  computed: {
-    webShareApiSupported() {
-      return navigator.share
-    }
-  }, 
-  shareViaWebShare() {
-    navigator.share({
-      title: 'Title to be shared',
-      text: 'Text to be shared',
-      url: 'URL to be shared'
-    })
-  }
-=======
   components: { MyHeader, MyFooter, Contracts }
   // created: function() {
   //   axios.get('/static/products.json')
@@ -131,7 +96,6 @@ export default {
   //     console.log(this.products);
   //   });
   // }
->>>>>>> Stashed changes
 }
 </script>
 
@@ -149,9 +113,9 @@ p{
   padding-left: 395px;
 }
 
-img{
+img
+{
   background: none;
-  /* padding-left: 395px; */
 }
 
 h2, h3

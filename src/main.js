@@ -2,15 +2,12 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 require('./assets/app.css')
-<<<<<<< Updated upstream
-=======
 // import { store } from './store'
 // import store from './store' 
 import Vuex from 'vuex'
 
 import drizzleVuePlugin from "@drizzle/vue-plugin"
 import drizzleOptions from "./drizzleOptions"
->>>>>>> Stashed changes
 
 // Register Vuex
 Vue.use(Vuex);
@@ -19,13 +16,11 @@ Vue.use(Vuex);
 const store = new Vuex.Store({ state: {} });
 
 Vue.config.productionTip = false
-<<<<<<< Updated upstream
-=======
 // Register the drizzleVuePlugin
 Vue.use(drizzleVuePlugin, { store, drizzleOptions })
->>>>>>> Stashed changes
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

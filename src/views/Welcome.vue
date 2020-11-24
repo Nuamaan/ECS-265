@@ -31,13 +31,13 @@ export default {
 
     }
   },
-  components: { },
-  created: function() {
-    axios.get('/static/products.json')
-    .then((response) =>{
-      this.products=response.data.products;
-      console.log(this.products);
-    });
-  }
+  components: { }
+  // created: function() {
+  //   axios.get('/static/products.json')
+  //   .then((response) =>{
+  //     this.products=response.data.products;
+  //     console.log(this.products);
+  //   });
+  // }
 }
 </script>

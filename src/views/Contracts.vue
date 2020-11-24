@@ -27,14 +27,14 @@ export default {
   
     }
   },
-  components: { MyHeader, MyFooter },
-  created: function() {
-    axios.get('/static/products.json')
-    .then((response) =>{
-      this.products=response.data.products;
-      console.log(this.products);
-    });
-  }
+  components: { MyHeader, MyFooter }
+  // created: function() {
+  //   axios.get('/static/products.json')
+  //   .then((response) =>{
+  //     this.products=response.data.products;
+  //     console.log(this.products);
+  //   });
+  // }
 }
 </script>
 

@@ -1,17 +1,9 @@
 // pragma solidity ^0.5.1;
 pragma solidity >=0.4.22 <0.8.0;
-// pragma experimental ABIEncoderV2;
 
-contract Promise {
-    uint256 public totPromise;              // To index the promises
+contract Promise{
+    uint256 public totPromise;//to index the promises
     address payable manager;
-<<<<<<< Updated upstream
-    mapping(uint256=>Prom) unConfirmedProm; // Holds unconfirmed promises initially before they are signed by the participating parties.
-    mapping(uint256=>Prom) ConfirmedProm;   // Holds confirmed promises.
-    mapping(uint256=>Prom) rejectedProm;    // Holds rejected promises i.e promises rejected by any one party.
-    
-    
-=======
     mapping(uint256=>Prom) unConfirmedProm;         // to hold unconfirmed promises initially before they are signed by the participating parties.
     mapping(uint256=>Prom) ConfirmedProm;           // to hold confirmed promises.
     mapping(uint256=>Prom) rejectedProm;     // to hold rejected promises i.e promises rejected by any one party.
@@ -21,35 +13,15 @@ contract Promise {
 
     bytes32[] public pendingProm; // TEMPORARY
       
->>>>>>> Stashed changes
     constructor() public {
         manager=msg.sender;
     }
     
-<<<<<<< Updated upstream
-    modifier isManager() {
-=======
     modifier isManager(){
->>>>>>> Stashed changes
         require(msg.sender==manager);
         _;
     }
     
-<<<<<<< Updated upstream
-    /* 
-        This event is to notify the other participating party of the promise being created
-    */
-    event notify (
-        address P2,
-        uint256 ind,
-        string oath
-    );
-    
-    /* 
-        A struct that holds the address and the boolean variable annotating that parties commitment status
-    */
-    struct partyStatus {  
-=======
     /* this event is to notify the other participating party of the promise being created*/
     event notify(
         address P2,
@@ -60,30 +32,10 @@ contract Promise {
     
     /* a struct that holds the address and the boolean variable annotating that parties commitment status*/
     struct partyStatus{  
->>>>>>> Stashed changes
         address P;
         bool commitment;
     }
     
-<<<<<<< Updated upstream
-    /* 
-        A structure holding our promise and the parties involved and their commitment towards the promise
-    */
-    struct Prom {
-        uint256 promIndex;
-        partyStatus P1;
-        partyStatus P2;
-        string oath;
-        bool status;   
-    }
-
-    /*
-        This function is used by one of the parties called a builder to create the unConfirmedPrompromise,
-        the address of the second party and the oath are also passed as parameters.
-        No malicious builder would want to call this function because this function takes in ehters and passes them to the manager.
-    */ 
-    function addPromise(address builder,address P2,string memory _oath) public payable {
-=======
     /*a structure holding our promise and the parties involved and their commitment towards the promise*/
     struct Prom{
         uint256 promIndex;
@@ -100,7 +52,6 @@ contract Promise {
     /* no malicious builder would want to call this function because this function takes in ehters and passes them to the manager.*/
     function addPromise(address builder,address P2,bytes32 _oath) public payable returns(uint256){ 
     // function addPromise(address builder,address P2,string memory _oath) public payable returns(uint256){ 
->>>>>>> Stashed changes
         require(msg.sender==builder);
         //require(msg.value==2 e);
         manager.transfer(msg.value);        /*ethers are passed to the manager,,,calling addPromise function would cost the builder*/
@@ -111,9 +62,6 @@ contract Promise {
 
         unConfirmedProm[totPromise]=Prom(totPromise,partyStatus(builder,true),partyStatus(P2,false), _oath,false);
         
-<<<<<<< Updated upstream
-        manager.transfer(msg.value);    /* Ethers are passed to the manager, calling addPromise function would cost the builder */
-=======
         unConfirmed[builder].push(totPromise); // pushing the promise index into the unconfirmed  mapping keyed by the address.
         unConfirmed[P2].push(totPromise);
         
@@ -121,31 +69,9 @@ contract Promise {
         emit notify(P2,totPromise,_oath);   /* the event is emitted,,,, the other part gets to know about the promoise being created 
                                                // by its name as one of the involved parties*/
         return totPromise;
->>>>>>> Stashed changes
         
-        /* 
-            The event is emitted, the other part gets to know about the promoise being created 
-            by its name as one of the involved parties
-        */
-        emit notify(P2,totPromise,_oath);   
- 
     }
 
-<<<<<<< Updated upstream
-    /*
-        This function is used by the involved parties to view the promise 
-    */
-    function viewPromise(uint256 ind) public view returns(string memory) {
-        require(msg.sender==unConfirmedProm[ind].P2.P || msg.sender==unConfirmedProm[ind].P1.P || msg.sender==manager||msg.sender==ConfirmedProm[ind].P2.P || msg.sender==ConfirmedProm[ind].P1.P);
-        return unConfirmedProm[ind].oath;
-        
-    }
-    
-    /* 
-        This function is used by the other party to sign the promise and hence 
-        confirms the promise
-    */
-=======
     /*this function is used by the involved parties to view the promise */
     function viewPromise(uint256 ind) public view returns(bytes32[] memory){ 
     // function viewPromise(uint256 ind) public view returns(string memory){ 
@@ -157,7 +83,6 @@ contract Promise {
     
     /* this function is used by the other party to sign the promise and hence 
     confirms the promise*/
->>>>>>> Stashed changes
     function signPromise(uint256 ind) public payable {
         require(msg.sender==unConfirmedProm[ind].P2.P);
         //require(msg.value==2 ethers);
@@ -188,19 +113,10 @@ contract Promise {
         }
     }
     
-<<<<<<< Updated upstream
-    /*
-        This function is used by the non-builder party to reject the promise. 
-        The promise after being rejected is added to the rejectPromise mapping 
-    */
-    function rejectPromise(uint256 ind) public payable {
-        require(unConfirmedProm[ind].P2.P==msg.sender);
-=======
     /*this function is used by the non-builder party to reject the promise. 
     The promise after being rejected is added to the rejectPromise mapping */
     function rejectPromise(uint256 ind) public  {
         require(msg.sender==unConfirmedProm[ind].P2.P);
->>>>>>> Stashed changes
         unConfirmedProm[ind].status=false;
         rejectedProm[ind]=unConfirmedProm[ind];
         Rejected[msg.sender].push(ind);                 // insert the rejected promise into the rejected mapping
@@ -224,15 +140,8 @@ contract Promise {
         }
     }
     
-<<<<<<< Updated upstream
-    /* 
-        This function is used to confirm promises and transfer them from
-        unConfirmedProm to ConfirmedProm mapping
-    */
-=======
     /* this function is used to confirm promises and transfer them from
    unConfirmedProm to ConfirmedProm mapping*/
->>>>>>> Stashed changes
     function confirmpromise(uint256 ind) internal {
         require(msg.sender==unConfirmedProm[ind].P1.P || msg.sender==unConfirmedProm[ind].P2.P);
         require(unConfirmedProm[ind].status==true);
@@ -253,8 +162,6 @@ contract Promise {
         return Rejected[msg.sender];
         
     }
-<<<<<<< Updated upstream
-=======
     
     function viewUnConfirmed() public view returns(uint256[] memory){
        
@@ -262,5 +169,4 @@ contract Promise {
         
     }
     
->>>>>>> Stashed changes
 }

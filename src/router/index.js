@@ -8,6 +8,7 @@ import Share from '../views/Share.vue'
 import Terms from '../views/Terms.vue'
 import Contracts from '../views/Contracts.vue'
 import Confirmation from '../views/Confirmation.vue'
+import Test from '../views/Test.vue'
 
 Vue.use(VueRouter)
 
@@ -65,15 +66,15 @@ const routes = [
     props: true
   },
   {
-    path: '/contracts',
-    name: 'Contracts',
-    component: Contracts,
-    props: true
-  },
-  {
     path: '/confirmation',
     name: 'Confirmation',
     component: Confirmation,
+    props: true
+  },
+  {
+    path: '/test',
+    name: 'Test',
+    component: Test,
     props: true
   }
 ]
