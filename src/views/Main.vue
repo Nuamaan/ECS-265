@@ -12,8 +12,8 @@
       <br>
       <br>
       <button type="button" class="btn btn-light btn-lg" v-on:click="showCreate">Create a contract</button>
-      <div class="divider"></div>
-      <button type="button" class="btn btn-light btn-lg" v-on:click="showShare">Share your address</button>
+      <!-- <div class="divider"></div>
+      <button type="button" class="btn btn-light btn-lg" v-on:click="showShare">Share your address</button> -->
     </main>
     <my-footer></my-footer>
   </div>
@@ -33,9 +33,9 @@ export default {
     showCreate() {
       this.$router.push({name: 'Create'});
     },
-    showShare() {
-      this.$router.push({name: 'Share'});
-    },
+    // showShare() {
+    //   this.$router.push({name: 'Share'});
+    // },
     delay(ms) {
       const startPoint = new Date().getTime();
       while (new Date().getTime() - startPoint <= ms) {
