@@ -1,5 +1,5 @@
 // Import contracts
-import Migrations from '../build/contracts/Migrations.json'
+// import Migrations from '../build/contracts/Migrations.json'
 import Promise from '../build/contracts/Promise.json'
 
 
@@ -10,11 +10,11 @@ import Promise from '../build/contracts/Promise.json'
 
 const options = {
     contracts: [Promise],
-    events: {
-      Promise: [
-        "notify"
-      ]
-    },
+    // events: {
+    //   Promise: [
+    //     "notify"
+    //   ]
+    // },
     polls: {
       blocks: 3000
     },
