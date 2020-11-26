@@ -1,3 +1,4 @@
+<!-- Reference: https://medium.com/@james.m.kehoe/building-a-guestbook-dapp-with-vue-js-and-truffle-e0c9e3fcdeeb -->
 <template>
   <div class="create">
     <my-header></my-header>
@@ -30,17 +31,6 @@
       <div class="center">
         <button type="button" class="btn btn-light btn-lg" v-on:click="showConfirmation">Send &amp; Sign Message</button>
       </div>
-      <div class="center">
-        <!-- <h2>Pending Contracts</h2> Supposed to list pending contracts -->
-        <ul v-if="getPromise">
-          <!-- {{ utils.toUtf8(promise) }} -->
-          <li v-for="(promise, i) in getPromise" :key="i">{{ utils.toUtf8(promise) }}</li>
-        </ul>
-      </div>
-      <div class="center">
-        <h3>Account</h3>
-          <drizzle-account units="Ether" :precision="2" />
-      </div>
     <my-footer></my-footer>
   </div>
 </template>
@@ -62,26 +52,8 @@ export default {
   computed: {
     // Use mapGetters to bring in needed methods from the Drizzle plugin
     ...mapGetters("drizzle", ["drizzleInstance", "isDrizzleInitialized"]),
-    ...mapGetters("contracts", ["getContractData"]),
+    // ...mapGetters("contracts", ["getContractData"]),
 
-    getPromise() {
-      this.getContractData({
-        contract: "Promise",
-        method: "viewPromise"
-      });
-    },
-
-    // Utilities needed to transform bytes to strings
-    utils() {
-      return this.drizzleInstance.web3.utils;
-    }
-  },
-  created() {
-    this.$store.dispatch("drizzle/REGISTER_CONTRACT", {
-      contractName: "Promise",
-      method: "addPromise",
-      methodArgs: []
-    });
   },
   methods: {
     showConfirmation() {
@@ -123,13 +95,5 @@ h2, h3
   padding-top: 10px;
 }
 
-/* #app > form > button { */
-/* #app > drizzle-contract-form > button
-{
-  font-size: 1.2em;
-  color: #2c3e50;
-  margin-left: 16px;
-  border: none;
-} */
 
 </style>

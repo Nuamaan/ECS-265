@@ -73,9 +73,9 @@ contract Promise{
     }
 
     /*this function is used by the involved parties to view the promise */
-    function viewPromise(uint256 ind) public view returns(bytes32[] memory){ 
+    function viewPromise() public view returns(bytes32[] memory){ 
     // function viewPromise(uint256 ind) public view returns(string memory){ 
-        require(msg.sender==unConfirmedProm[ind].P1.P || msg.sender==unConfirmedProm[ind].P2.P);
+        // require(msg.sender==unConfirmedProm[ind].P1.P || msg.sender==unConfirmedProm[ind].P2.P);
         // return unConfirmedProm[ind].oath;
         return pendingProm;
         
