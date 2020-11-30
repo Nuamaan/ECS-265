@@ -3,7 +3,7 @@
         <div class="navbar navbar-default">
             <div class="navbar-header">
               <h1 class="test">
-                 <div class="logo"><img v-on:click="showMain" class="centerlogo" src="../assets/hand_shake_logo.png" width="40" height="40" alt="Logo"></div>
+                 <div class="logo"><img v-on:click="showMain" class="centerlogo" src="../assets/PR logo.png" width="82" height="82" alt="Logo"></div>
                 <router-link class="router-link-exact-active" v-bind:to="{name: 'iMain'}">{{ sitename }}</router-link>
               </h1>
             </div>

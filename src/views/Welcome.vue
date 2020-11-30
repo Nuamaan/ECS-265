@@ -1,7 +1,7 @@
 <template>
     <div class="welcome">
         <main class="center-screen">
-            <div class="logo"><img class="centerlogo" src="../assets/hand_shake_logo.png" width="100" height="100" alt="Logo"></div>
+            <div class="logo"><img class="centerlogo" src="../assets/PR logo.png" width="100" height="100" alt="Logo"></div>
             <h1 class="center-screen">Promise</h1>
         </main>
     </div>
