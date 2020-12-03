@@ -1,5 +1,4 @@
 // Import contracts
-// import Migrations from '../build/contracts/Migrations.json'
 import Promise from '../build/contracts/Promise.json'
 
 
@@ -10,11 +9,11 @@ import Promise from '../build/contracts/Promise.json'
 
 const options = {
     contracts: [Promise],
-    // events: {
-    //   Promise: [
-    //     "notify"
-    //   ]
-    // },
+    events: {
+      Promise: [
+        "notify"
+      ]
+    },
     polls: {
       blocks: 3000
     },
@@ -22,7 +21,7 @@ const options = {
     web3: {
       fallback: {
         type: "ws",
-        url: "ws://127.0.0.1:8545"
+        url: "ws://127.0.0.1:9545"
       }
     }
   }
