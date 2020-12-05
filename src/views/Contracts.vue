@@ -10,17 +10,7 @@
               {{i+1}}. {{ utils.toUtf8(promise)}} <br />
             </div>
           </ul>
-            <!--
-            <drizzle-contract-form
-            contractName="Promise"
-            method='signPromise'
-            :placeholders="[]"
-            /> -->
-            <!-- :placeholders="[]" -->
-            <!-- :methodArgs="[i]" -->
-            <!-- <a href="#" @click="signPromise(i)">Sign</a> -->
-            <!--<button type="button" class="btn btn-light btn-lg" v-on:click="signPromise(i)">Sign</button> }}-->
-            <!-- <button type="button" class="btn btn-light btn-lg" v-on:click="rejectPromise">Reject</button> -->
+          <ul v-else> Oh no... </ul>
       </div>
       <div class="signed center">
         <drizzle-contract-form
@@ -31,7 +21,12 @@
       </div>
       <div class="signed center">
         <h2 class="contracts-heading">Signed Contracts</h2>
-
+          <ul v-if="getSignedPromises">
+            <div style="text-align: left;" v-for="(promise, i) in getSignedPromises" :key="i">
+              {{i+1}}. {{ utils.toUtf8(promise)}} <br />
+            </div>
+          </ul>
+          <ul v-else> Oh no... </ul>
       </div>
       <div class="rejected center">
         <h2 class="contracts-heading">Rejected Contracts</h2>
@@ -57,6 +52,12 @@ export default {
   
     }
   },
+
+  signedPromises () {
+    return {
+
+    }
+  },
   
   methods : {
     print: function(idx){
@@ -75,23 +76,24 @@ export default {
         contract: "Promise",
         method: "viewPromise"
       });
-      if (data === "loading") return false;
+      if (data === "loading"){
+        console.log("loading...")
+        return false;
+      }
       return data;
     },
-/*
-    signPromise(idx) {
-      console.log("contract ID: ", idx)
-      this.created
-      this.getContractData({
+
+    getSignedPromises() {
+      let signedPromises = this.getContractData({
         contract: "Promise",
-        method: "signPromise",
-        methodArgs: [idx]
-      })
-    },*/
-    
-   // rejectPromise(){
-   //   
-   // },
+        method: "viewConfirmed"
+      });
+      if (signedPromises === "loading"){
+        console.log("loading...")
+        return false;
+      }
+      return signedPromises;
+    },
 
     // Utilities needed to transform bytes to strings
     utils() {
@@ -103,6 +105,12 @@ export default {
     this.$store.dispatch("drizzle/REGISTER_CONTRACT", {
       contractName: "Promise",
       method: "viewPromise",
+      methodArgs: []
+    });
+    
+    this.$store.dispatch("drizzle/REGISTER_CONTRACT", {
+      contractName: "Promise",
+      method: "viewConfirmed",
       methodArgs: []
     });
   },

@@ -12,6 +12,7 @@ contract Promise{
     mapping(address=>uint256[]) unConfirmed; //unConfirmed promises per user
 
     bytes32[] public pendingProm; // TEMPORARY
+    bytes32[] public signedProm; 
       
     constructor() public {
         manager=msg.sender;
@@ -90,7 +91,8 @@ contract Promise{
         unConfirmedProm[ind].status=true;
         confirmpromise(ind);
         manager.transfer(msg.value);
-        
+
+        signedProm.push(unConfirmedProm[ind].oath);
         Confirmed[msg.sender].push(ind);                //adding the promise to the Confirmed list of promises
         Confirmed[unConfirmedProm[ind].P1.P].push(ind); //adding the promise to the Confirmed list of promises
         
@@ -150,10 +152,9 @@ contract Promise{
     }
 
     /* this function would be used to view the Confirmed Promises by their owner. */ 
-    function viewConfirmed() public view returns(uint256[] memory){
+    function viewConfirmed() public view returns(bytes32[] memory){
        
-       return Confirmed[msg.sender];
-        
+       return signedProm;//Confirmed[msg.sender];
     }
 
     /* this function would be used to view the Confirmed Promises by their owner. */ 
