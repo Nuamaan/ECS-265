@@ -2,7 +2,7 @@
 pragma solidity >=0.4.22 <0.8.0;
 
 
-contract Promise{
+contract ImprovedPromise{
     uint256 public totPromise;//to index the promises
     address payable manager;
     mapping(uint256=>Prom) unConfirmedProm;         // to hold unconfirmed promises initially before they are signed by the participating parties.

@@ -1,7 +1,7 @@
 // pragma solidity ^0.5.1;
 pragma solidity >=0.4.22 <0.8.0;
 
-contract PlainPromise
+contract SolidPromise
 {
     uint256 public totalPromiseCount;              // The total count of the promises that have been created - used to index the promises. Default is 0.
     address payable manager;
