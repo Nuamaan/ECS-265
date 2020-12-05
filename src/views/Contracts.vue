@@ -7,15 +7,26 @@
           <ul v-if="getPromise">
             <!-- {{ utils.toUtf8(promise) }} -->
             <div style="text-align: left;" v-for="(promise, i) in getPromise" :key="i">
-              {{i+1}}. {{ utils.toUtf8(promise)}} <br />
+              <ul v-if="promise != 0x0">
+                {{i+1}}. {{ utils.toUtf8(promise)}} <br />
+              </ul>
             </div>
           </ul>
           <ul v-else> Oh no... </ul>
       </div>
       <div class="signed center">
+        Sign:
         <drizzle-contract-form
           contractName="Promise"
           method='signPromise'
+          :placeholders="[]" 
+        />
+      </div>
+      <div class="rejected center">
+        Reject:
+        <drizzle-contract-form
+          contractName="Promise"
+          method='rejectPromise'
           :placeholders="[]" 
         />
       </div>
@@ -30,7 +41,12 @@
       </div>
       <div class="rejected center">
         <h2 class="contracts-heading">Rejected Contracts</h2>
-
+          <ul v-if="getRejectedPromises">
+            <div style="text-align: left;" v-for="(promise, i) in getRejectedPromises" :key="i">
+              {{i+1}}. {{ utils.toUtf8(promise)}} <br />
+            </div>
+          </ul>
+          <ul v-else> Oh no... </ul>
       </div>
     </div>
     <div v-else>
@@ -54,6 +70,12 @@ export default {
   },
 
   signedPromises () {
+    return {
+
+    }
+  },
+  
+  rejectedPromises () {
     return {
 
     }
@@ -95,6 +117,17 @@ export default {
       return signedPromises;
     },
 
+    getRejectedPromises() {
+      let rejectedPromises = this.getContractData({
+        contract: "Promise",
+        method: "viewRejected"
+      });
+      if (rejectedPromises === "loading"){
+        console.log("loading...")
+        return false;
+      }
+      return rejectedPromises;
+    },
     // Utilities needed to transform bytes to strings
     utils() {
       return this.drizzleInstance.web3.utils;
@@ -111,6 +144,12 @@ export default {
     this.$store.dispatch("drizzle/REGISTER_CONTRACT", {
       contractName: "Promise",
       method: "viewConfirmed",
+      methodArgs: []
+    });
+
+    this.$store.dispatch("drizzle/REGISTER_CONTRACT", {
+      contractName: "Promise",
+      method: "viewRejected",
       methodArgs: []
     });
   },

@@ -7,12 +7,13 @@ contract Promise{
     mapping(uint256=>Prom) unConfirmedProm;         // to hold unconfirmed promises initially before they are signed by the participating parties.
     mapping(uint256=>Prom) ConfirmedProm;           // to hold confirmed promises.
     mapping(uint256=>Prom) rejectedProm;     // to hold rejected promises i.e promises rejected by any one party.
-    mapping(address=>uint256[]) Confirmed;   //Confirmed promises per user address
-    mapping(address=>uint256[]) Rejected;    //rejected promises per user address
+    mapping(address=>bytes32[]) Confirmed;   //Confirmed promises per user address
+    mapping(address=>bytes32[]) Rejected;    //rejected promises per user address
     mapping(address=>uint256[]) unConfirmed; //unConfirmed promises per user
+    mapping(address=>bytes32[]) pendingProm;
 
-    bytes32[] public pendingProm; // TEMPORARY
-    bytes32[] public signedProm; 
+    //bytes32[] public pendingProm; // TEMPORARY
+    //bytes32[] public signedProm; 
       
     constructor() public {
         manager=msg.sender;
@@ -53,13 +54,17 @@ contract Promise{
     /* no malicious builder would want to call this function because this function takes in ehters and passes them to the manager.*/
     function addPromise(address builder,address P2,bytes32 _oath) public payable returns(uint256){ 
     // function addPromise(address builder,address P2,string memory _oath) public payable returns(uint256){ 
+        require(builder != address(0));
+        require(P2 != address(0));
         require(msg.sender==builder);
+        require(_oath != 0x0);
         //require(msg.value==2 e);
         manager.transfer(msg.value);        /*ethers are passed to the manager,,,calling addPromise function would cost the builder*/
         
         totPromise++;
 
-        pendingProm.push(_oath);
+        pendingProm[msg.sender].push(_oath);
+        pendingProm[P2].push(_oath);
 
         unConfirmedProm[totPromise]=Prom(totPromise,partyStatus(builder,true),partyStatus(P2,false), _oath,false);
         
@@ -78,7 +83,7 @@ contract Promise{
     // function viewPromise(uint256 ind) public view returns(string memory){ 
         // require(msg.sender==unConfirmedProm[ind].P1.P || msg.sender==unConfirmedProm[ind].P2.P);
         // return unConfirmedProm[ind].oath;
-        return pendingProm;
+        return pendingProm[msg.sender];
         
     }
     
@@ -86,15 +91,18 @@ contract Promise{
     confirms the promise*/
     function signPromise(uint256 ind) public payable {
         require(msg.sender==unConfirmedProm[ind].P2.P);
+        require(pendingProm[msg.sender][ind] != 0x0);
         //require(msg.value==2 ethers);
         unConfirmedProm[ind].P2.commitment=true;
         unConfirmedProm[ind].status=true;
         confirmpromise(ind);
         manager.transfer(msg.value);
 
-        signedProm.push(unConfirmedProm[ind].oath);
-        Confirmed[msg.sender].push(ind);                //adding the promise to the Confirmed list of promises
-        Confirmed[unConfirmedProm[ind].P1.P].push(ind); //adding the promise to the Confirmed list of promises
+        //signedProm.push(unConfirmedProm[ind].oath);
+        //Confirmed[msg.sender].push(ind);                //adding the promise to the Confirmed list of promises
+        Confirmed[msg.sender].push(unConfirmedProm[ind].oath);                //adding the promise to the Confirmed list of promises
+        //Confirmed[unConfirmedProm[ind].P1.P].push(ind); //adding the promise to the Confirmed list of promises
+        Confirmed[unConfirmedProm[ind].P1.P].push(unConfirmedProm[ind].oath); //adding the promise to the Confirmed list of promises
         
         
         // deleting the entries from the unConfirmed mapping once the promise gets signed.
@@ -102,6 +110,8 @@ contract Promise{
         l=unConfirmed[msg.sender];
         for(uint i;i<l.length;i++){
             if (l[i]==ind){
+                // removing from pending
+                pendingProm[msg.sender][i] = 0x0;
                 delete unConfirmed[msg.sender][i];
             }
         }
@@ -110,6 +120,8 @@ contract Promise{
         l1=unConfirmed[unConfirmedProm[ind].P1.P];
         for(uint i;i<l1.length;i++){
             if (l1[i]==ind){
+                // removing from pending
+                pendingProm[unConfirmedProm[ind].P1.P][i] = 0x0;
                 delete unConfirmed[unConfirmedProm[ind].P1.P][i];
             }
         }
@@ -119,16 +131,19 @@ contract Promise{
     The promise after being rejected is added to the rejectPromise mapping */
     function rejectPromise(uint256 ind) public  {
         require(msg.sender==unConfirmedProm[ind].P2.P);
+        require(pendingProm[msg.sender][ind] != 0x0);
         unConfirmedProm[ind].status=false;
         rejectedProm[ind]=unConfirmedProm[ind];
-        Rejected[msg.sender].push(ind);                 // insert the rejected promise into the rejected mapping
-        Rejected[unConfirmedProm[ind].P1.P].push(ind);  // insert the rejected promise into the rejected mapping
+        Rejected[msg.sender].push(unConfirmedProm[ind].oath);                 // insert the rejected promise into the rejected mapping
+        Rejected[unConfirmedProm[ind].P1.P].push(unConfirmedProm[ind].oath);  // insert the rejected promise into the rejected mapping
         emit notify(msg.sender,ind,unConfirmedProm[ind].oath);
         
         uint256[] memory l;                    // deleting the promise from unConfirmed mapping.
         l=unConfirmed[msg.sender];
         for(uint i;i<l.length;i++){
             if (l[i]==ind){
+                // removing from pending
+                pendingProm[msg.sender][i] = 0x0;
                 delete unConfirmed[msg.sender][i];
             }
         }
@@ -137,6 +152,8 @@ contract Promise{
         l1=unConfirmed[unConfirmedProm[ind].P1.P];
         for(uint i;i<l1.length;i++){
             if (l1[i]==ind){
+                // removing from pending
+                pendingProm[unConfirmedProm[ind].P1.P][i] = 0x0;
                 delete unConfirmed[unConfirmedProm[ind].P1.P][i];
             }
         }
@@ -154,11 +171,12 @@ contract Promise{
     /* this function would be used to view the Confirmed Promises by their owner. */ 
     function viewConfirmed() public view returns(bytes32[] memory){
        
-       return signedProm;//Confirmed[msg.sender];
+       //return signedProm;
+       return Confirmed[msg.sender];
     }
 
     /* this function would be used to view the Confirmed Promises by their owner. */ 
-    function viewRejected() public view returns(uint256[] memory){
+    function viewRejected() public view returns(bytes32[] memory){
        
         return Rejected[msg.sender];
         
