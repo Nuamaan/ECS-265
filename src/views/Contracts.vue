@@ -12,8 +12,8 @@
               <h5>Terms:</h5> 
               {{ getAllPendingPromises[i] }} <br><br>
               Creator: {{ getAllPendingPromiseBuilders[i] }}<br>
-              Recipient: {{ getAllPendingPromiseRecipients[i] }}
-              <button>Sign</button><button>Reject</button>
+              Recipient: {{ getAllPendingPromiseRecipients[i] }}<br>
+              <div class="center"><button>Sign</button><button>Reject</button></div>
             </div>
 
           </div>
