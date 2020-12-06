@@ -124,8 +124,6 @@ contract SolidPromise
         pendingArchive[recipient].push(totalPromiseCount);
 
         
-        
-        
         // After the promises have been added to the respective arrays and mapping, emit event to signal to recipient.
         emit notify(recipient, totalPromiseCount, _oathTitle, _oath); 
                 
@@ -184,7 +182,6 @@ contract SolidPromise
     }
     
 
-    
     /**
      * This function is used by the recipient party in order to sign and confirm the promise.
      * This function will fail if a party not involved with the contract attempts to sign it by using its index.
@@ -287,7 +284,6 @@ contract SolidPromise
         
     }
 
-  
     /**
      * This function returns an array containing all of the signed promises for one user.
      * @return An array containing all signed contracts for user.
@@ -598,10 +594,6 @@ contract SolidPromise
     }
     /******************************Rejected Promises Helpers End******************************************/
 
-
-
-
-
     /**
      * This function helps in converting an address to a string.
      * @param _addr An address.
@@ -621,14 +613,4 @@ contract SolidPromise
         }
         return string(addressAsString);
     }
-
-
-
-
-
-
-
-
-
-    
 }

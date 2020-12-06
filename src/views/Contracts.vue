@@ -8,12 +8,11 @@
           <div v-if="getAllPendingPromises">
 
             <div class="contract-list" v-for="(pendingPromiseTitle, i) in getAllPendingPromiseTitles" v-bind:key="i">
-              <h5>Title: {{ getAllPendingPromiseTitles[i] }}</h5>
-              <h5>Terms:</h5> 
+              <h5 class="center">{{ getAllPendingPromiseTitles[i] }}</h5> 
               {{ getAllPendingPromises[i] }} <br><br>
               Creator: {{ getAllPendingPromiseBuilders[i] }}<br>
               Recipient: {{ getAllPendingPromiseRecipients[i] }}<br>
-              <div class="center"><button>Sign</button><button>Reject</button></div>
+              <!--<div class="center"><button>Sign</button><button>Reject</button></div> -->
             </div>
 
           </div>
