@@ -1,5 +1,6 @@
 // pragma solidity ^0.5.1;
 pragma solidity >=0.4.22 <0.8.0;
+pragma experimental ABIEncoderV2;
 
 contract SolidPromise
 {
@@ -15,6 +16,11 @@ contract SolidPromise
     mapping(address=>uint256[]) signedArchive;      // This mapping maps each address to an individual array of signed promises for it.
     mapping(address=>uint256[]) rejectedArchive;    // This mapping maps each address to an individual array of rejected promises for it.
     mapping(address=>uint256[]) pendingArchive;     // This mapping maps each address to an individual array of pending contracts for it.
+
+
+    string[] public allPendingPromisesForUser;
+    string[] public allSignedPromisesForUser;
+    string[] public allRejectedPromisesForUser;
 
 
     /**
@@ -153,6 +159,31 @@ contract SolidPromise
         return pendingPromises[index].oathTitle;
     }
 
+    /**
+     * This function is used by the involved parties in order to view the public address of the creator of a contract.
+     * This function will fail if a user not involved with the contract attempts to view it by using index.
+     * @return The contract creator's public address converted to a string.
+     */
+
+    function viewPromiseBuilderAddress(uint256 index) public view returns(string memory)
+    {
+        require(msg.sender == pendingPromises[index].builderAccount.accountAddress || msg.sender == pendingPromises[index].recipientAccount.accountAddress);
+        return addressToString(pendingPromises[index].builderAccount.accountAddress);
+    }
+
+    /**
+     * This function is used by the involved parties in order to view the public address of the recipient of a contract.
+     * This function will fail if a user not involved with the contract attempts to view it by using index.
+     * @return The contract recipient's public address converted to a string.
+     */
+
+    function viewPromiseRecipientAddress(uint256 index) public view returns(string memory)
+    {
+        require(msg.sender == pendingPromises[index].builderAccount.accountAddress || msg.sender == pendingPromises[index].recipientAccount.accountAddress);
+        return addressToString(pendingPromises[index].recipientAccount.accountAddress);
+    }
+    
+
     
     /**
      * This function is used by the recipient party in order to sign and confirm the promise.
@@ -259,7 +290,7 @@ contract SolidPromise
   
     /**
      * This function returns an array containing all of the signed promises for one user.
-     * @return An array containing all signedContracts for user.
+     * @return An array containing all signed contracts for user.
      */
     function viewSignedPromises() public view returns(uint256[] memory)
     {
@@ -267,8 +298,8 @@ contract SolidPromise
     }
 
     /**
-     * This function returns an array containing all of the rejected promises for one user.
-     * @return An array containing all signedContracts for user.
+     * This function returns a mapping containing all of the rejected promises for one user.
+     * @return A mapping containing all rejected contracts for user.
      */
     function viewRejectedPromises() public view returns(uint256[] memory)
     {   
@@ -276,12 +307,328 @@ contract SolidPromise
     }
     
     /**
-     * This function returns an array containing all of the pending promises for one user.
-     * @return An array containing all signedContracts for user.
+     * This function returns a mapping containing all of the pending promises for one user.
+     * @return A mapping containing all pending contracts for user.
      */
     function viewPendingPromises() public view returns(uint256[] memory)
     {    
         return pendingArchive[msg.sender];   
     }
+
+    /******************************Pending Promises Helpers Start**********************************************/
+    /**
+     * This function helps in viewing promises. It prints all of the pending promise titles and contents
+     * for a single user and returns an array of strings.
+     * @return A string array containing all of the pending promises for a single user.
+     */
+
+    function viewAllPendingPromises() public view returns(string[] memory)
+    {
+        // Retrieve the full list of pending promises for this user.
+        uint256[] memory pendingPromisesAsIntegers = viewPendingPromises();
+
+        string[] memory allPendingPromises = new string[](pendingPromisesAsIntegers.length);
+
+        // Call view promise on each one and add the strings to allPendingPromises array.
+        for (uint index = 0; index < pendingPromisesAsIntegers.length; index++)
+        {
+            allPendingPromises[index] = viewPromise(pendingPromisesAsIntegers[index]);
+        }
+        
+        // Return the array of Promise strings.
+        return allPendingPromises;
+    }
+
+    /**
+     * This function helps in viewing promises. It prints all of the pending promise titles and contents
+     * for a single user and returns an array of strings.
+     * @return A string array containing all of the pending promises for a single user.
+     */
+
+    function viewAllPendingPromiseTitles() public view returns(string[] memory)
+    {
+        // Retrieve the full list of pending promises for this user.
+        uint256[] memory pendingPromisesAsIntegers = viewPendingPromises();
+
+        string[] memory allPendingPromises = new string[](pendingPromisesAsIntegers.length);
+
+        // Call view promise on each one and add the strings to allPendingPromises array.
+        for (uint index = 0; index < pendingPromisesAsIntegers.length; index++)
+        {
+            allPendingPromises[index] = viewPromiseTitle(pendingPromisesAsIntegers[index]);
+        }
+        
+        // Return the array of Promise strings.
+        return allPendingPromises;
+    }
+
+        /**
+     * This function helps in viewing promises. It prints all of the pending promise titles and contents
+     * for a single user and returns an array of strings.
+     * @return A string array containing all of the pending promises for a single user.
+     */
+
+    function viewAllPendingPromiseBuilders() public view returns(string[] memory)
+    {
+        // Retrieve the full list of pending promises for this user.
+        uint256[] memory pendingPromisesAsIntegers = viewPendingPromises();
+
+        string[] memory allPendingPromises = new string[](pendingPromisesAsIntegers.length);
+
+        // Call view promise builder on each one and add the strings to allPendingPromises array.
+        for (uint index = 0; index < pendingPromisesAsIntegers.length; index++)
+        {
+            allPendingPromises[index] = viewPromiseBuilderAddress(pendingPromisesAsIntegers[index]);
+        }
+        
+        // Return the array of Promise strings.
+        return allPendingPromises;
+    }
+
+    /**
+     * This function helps in viewing promises. It prints all of the pending promise titles and contents
+     * for a single user and returns an array of strings.
+     * @return A string array containing all of the pending promises for a single user.
+     */
+
+    function viewAllPendingPromiseRecipients() public view returns(string[] memory)
+    {
+        // Retrieve the full list of pending promises for this user.
+        uint256[] memory pendingPromisesAsIntegers = viewPendingPromises();
+
+        string[] memory allPendingPromises = new string[](pendingPromisesAsIntegers.length);
+
+        // Call view promise on each one and add the strings to allPendingPromises array.
+        for (uint index = 0; index < pendingPromisesAsIntegers.length; index++)
+        {
+            allPendingPromises[index] = viewPromiseRecipientAddress(pendingPromisesAsIntegers[index]);
+        }
+        
+        // Return the array of Promise strings.
+        return allPendingPromises;
+    }
+    /******************************Pending Promises Helpers End**********************************************/
+
+    /******************************Signed Promises Helpers Start**********************************************/
+    /**
+     * This function helps in viewing promises. It prints all of the signed promises
+     * for a single user and returns an array of strings.
+     * @return A string array containing all of the signed promises for a single user.
+     */
+
+    function viewAllSignedPromises() public view returns(string[] memory)
+    {
+        // Retrieve the full list of signed promises for this user.
+        uint256[] memory signedPromisesAsIntegers = viewSignedPromises();
+
+        string[] memory allSignedPromises = new string[](signedPromisesAsIntegers.length);
+
+        // Call view promise on each one and add the strings to allSignedPromises array.
+        for (uint index = 0; index < signedPromisesAsIntegers.length; index++)
+        {
+            allSignedPromises[index] = viewPromise(signedPromisesAsIntegers[index]);
+        }
+        
+        // Return the array of Promise strings.
+        return allSignedPromises;
+    }
+
+    /**
+     * This function helps in viewing promises. It prints all of the signed promise titles
+     * for a single user and returns an array of strings.
+     * @return A string array containing all of the signed promise titles for a single user.
+     */
+
+    function viewAllSignedPromiseTitles() public view returns(string[] memory)
+    {
+        // Retrieve the full list of signed promises for this user.
+        uint256[] memory signedPromisesAsIntegers = viewSignedPromises();
+
+        string[] memory allSignedPromises = new string[](signedPromisesAsIntegers.length);
+
+        // Call view promise on each one and add the strings to allSignedPromises array.
+        for (uint index = 0; index < signedPromisesAsIntegers.length; index++)
+        {
+            allSignedPromises[index] = viewPromiseTitle(signedPromisesAsIntegers[index]);
+        }
+        
+        // Return the array of Promise strings.
+        return allSignedPromises;
+    }
+
+    /**
+     * This function helps in viewing promises. It prints all of the creators of signed promises
+     * for a single user and returns an array of strings.
+     * @return A string array containing all of the creators of signed promises for a single user.
+     */
+
+    function viewAllSignedPromiseBuilders() public view returns(string[] memory)
+    {
+        // Retrieve the full list of signed promises for this user.
+        uint256[] memory signedPromisesAsIntegers = viewSignedPromises();
+
+        string[] memory allSignedPromises = new string[](signedPromisesAsIntegers.length);
+
+        // Call view promise builder on each one and add the strings to allSignedPromises array.
+        for (uint index = 0; index < signedPromisesAsIntegers.length; index++)
+        {
+            allSignedPromises[index] = viewPromiseBuilderAddress(signedPromisesAsIntegers[index]);
+        }
+        
+        // Return the array of Promise strings.
+        return allSignedPromises;
+    }
+
+    /**
+     * This function helps in viewing promises. It prints all of the recipients of signed promises
+     * for a single user and returns an array of strings.
+     * @return A string array containing all of the signed promises for a single user.
+     */
+
+    function viewAllSignedPromiseRecipients() public view returns(string[] memory)
+    {
+        // Retrieve the full list of signed promises for this user.
+        uint256[] memory signedPromisesAsIntegers = viewSignedPromises();
+
+        string[] memory allSignedPromises = new string[](signedPromisesAsIntegers.length);
+
+        // Call view promise on each one and add the strings to allSignedPromises array.
+        for (uint index = 0; index < signedPromisesAsIntegers.length; index++)
+        {
+            allSignedPromises[index] = viewPromiseRecipientAddress(signedPromisesAsIntegers[index]);
+        }
+        
+        // Return the array of Promise strings.
+        return allSignedPromises;
+    }
+    /******************************Signed Promises Helpers End**********************************************/
+
+    /******************************Rejected Promises Helpers Start******************************************/
+    
+    /**
+     * This function helps in viewing promises. It prints all of the rejected promises
+     * for a single user and returns an array of strings.
+     * @return A string array containing all of the rejected promises for a single user.
+     */
+
+    function viewAllRejectedPromises() public view returns(string[] memory)
+    {
+        // Retrieve the full list of rejected promises for this user.
+        uint256[] memory rejectedPromisesAsIntegers = viewRejectedPromises();
+
+        string[] memory allRejectedPromises = new string[](rejectedPromisesAsIntegers.length);
+
+        // Call view promise on each one and add the strings to allRejectedPromises array.
+        for (uint index = 0; index < rejectedPromisesAsIntegers.length; index++)
+        {
+            allRejectedPromises[index] = viewPromise(rejectedPromisesAsIntegers[index]);
+        }
+        
+        // Return the array of Promise strings.
+        return allRejectedPromises;
+    }
+
+    /**
+     * This function helps in viewing promises. It prints all of the rejected promise titles
+     * for a single user and returns an array of strings.
+     * @return A string array containing all of the rejected promise titles for a single user.
+     */
+
+    function viewAllRejectedPromiseTitles() public view returns(string[] memory)
+    {
+        // Retrieve the full list of rejected promises for this user.
+        uint256[] memory rejectedPromisesAsIntegers = viewRejectedPromises();
+
+        string[] memory allRejectedPromises = new string[](rejectedPromisesAsIntegers.length);
+
+        // Call view promise on each one and add the strings to allRejectedPromises array.
+        for (uint index = 0; index < rejectedPromisesAsIntegers.length; index++)
+        {
+            allRejectedPromises[index] = viewPromiseTitle(rejectedPromisesAsIntegers[index]);
+        }
+        
+        // Return the array of Promise strings.
+        return allRejectedPromises;
+    }
+
+    /**
+     * This function helps in viewing promises. It prints all of the creators of rejected promises
+     * for a single user and returns an array of strings.
+     * @return A string array containing all of the creators of rejected promises for a single user.
+     */
+
+    function viewAllRejectedPromiseBuilders() public view returns(string[] memory)
+    {
+        // Retrieve the full list of rejected promises for this user.
+        uint256[] memory rejectedPromisesAsIntegers = viewRejectedPromises();
+
+        string[] memory allRejectedPromises = new string[](rejectedPromisesAsIntegers.length);
+
+        // Call view promise builder on each one and add the strings to allRejectedPromises array.
+        for (uint index = 0; index < rejectedPromisesAsIntegers.length; index++)
+        {
+            allRejectedPromises[index] = viewPromiseBuilderAddress(rejectedPromisesAsIntegers[index]);
+        }
+        
+        // Return the array of Promise strings.
+        return allRejectedPromises;
+    }
+
+    /**
+     * This function helps in viewing promises. It prints all of the recipients of rejected promises
+     * for a single user and returns an array of strings.
+     * @return A string array containing all of the rejected promises for a single user.
+     */
+
+    function viewAllRejectedPromiseRecipients() public view returns(string[] memory)
+    {
+        // Retrieve the full list of rejected promises for this user.
+        uint256[] memory rejectedPromisesAsIntegers = viewRejectedPromises();
+
+        string[] memory allRejectedPromises = new string[](rejectedPromisesAsIntegers.length);
+
+        // Call view promise on each one and add the strings to allRejectedPromises array.
+        for (uint index = 0; index < rejectedPromisesAsIntegers.length; index++)
+        {
+            allRejectedPromises[index] = viewPromiseRecipientAddress(rejectedPromisesAsIntegers[index]);
+        }
+        
+        // Return the array of Promise strings.
+        return allRejectedPromises;
+    }
+    /******************************Rejected Promises Helpers End******************************************/
+
+
+
+
+
+    /**
+     * This function helps in converting an address to a string.
+     * @param _addr An address.
+     * @return A human readable string.
+     */
+    function addressToString(address _addr) public pure returns(string memory) 
+    {
+        bytes32 value = bytes32(uint256(_addr));
+        bytes memory alphabet = "0123456789abcdef";
+
+        bytes memory addressAsString = new bytes(51);
+        addressAsString[0] = '0';
+        addressAsString[1] = 'x';
+        for (uint256 i = 0; i < 20; i++) {
+            addressAsString[2+i*2] = alphabet[uint8(value[i + 12] >> 4)];
+            addressAsString[3+i*2] = alphabet[uint8(value[i + 12] & 0x0f)];
+        }
+        return string(addressAsString);
+    }
+
+
+
+
+
+
+
+
+
     
 }

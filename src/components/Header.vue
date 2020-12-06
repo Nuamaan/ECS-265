@@ -3,8 +3,10 @@
         <div class="navbar navbar-default">
             <div class="navbar-header">
               <h1 class="test">
-                 <div class="logo"><img v-on:click="showMain" class="centerlogo" src="../assets/PR logo.png" width="82" height="82" alt="Logo"></div>
-                <router-link class="router-link-exact-active" v-bind:to="{name: 'iMain'}">{{ sitename }}</router-link>
+                 <div class="logo">
+                   <img v-on:click="showMain" class="centerlogo" src="../assets/PR logo.png" width="82" height="82" alt="Logo">
+                  </div>
+                <router-link class="big router-link-exact-active" v-bind:to="{name: 'iMain'}">{{ sitename }}</router-link>
               </h1>
             </div>
               <h1>
@@ -57,6 +59,7 @@ a {
 .logo {
   padding: 0%;
   margin: 0%;
+  display: inline;
 }
 
 h1 {
@@ -68,7 +71,7 @@ h1 {
 }
 
 .centerlogo {
-  display: block;
+  display: inline;
   margin-left: auto;
   margin-right: auto;  
   cursor: pointer;  
@@ -82,5 +85,9 @@ h1 {
 
 .pointer{
   cursor: pointer;  
+}
+
+.big{
+  font-size: 80%;
 }
 </style>

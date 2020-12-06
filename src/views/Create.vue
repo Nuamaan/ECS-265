@@ -5,9 +5,9 @@
       <div v-if="isDrizzleInitialized" id="app">
         <h1>Start Creating</h1>
         <drizzle-contract-form class="form-group"
-          contractName="Promise"
+          contractName="SolidPromise"
           method="addPromise"
-          v-bind:placeholders="['Creator\'s Public Key', 'Recipient(s): Alice\'s Public Key', 'Write your contract here...']"
+          v-bind:placeholders="['Creator\'s Public Key', 'Recipient(s): Alice\'s Public Key', 'Contract Title', 'Write your contract here...']"
         />
       </div>
       <div v-else>

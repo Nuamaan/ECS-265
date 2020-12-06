@@ -1,5 +1,5 @@
 // Import contracts
-import Promise from '../build/contracts/Promise.json'
+import SolidPromise from '../build/contracts/SolidPromise.json'
 
 
 /**
@@ -8,9 +8,9 @@ import Promise from '../build/contracts/Promise.json'
  */
 
 const options = {
-    contracts: [Promise],
+    contracts: [SolidPromise],
     events: {
-      Promise: [
+      SolidPromise: [
         "notify"
       ]
     },
