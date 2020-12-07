@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Welcome from '../views/Welcome.vue'
 import Main from '../views/Main.vue'
 import Create from '../views/Create.vue'
 import Contact from '../views/Contact.vue'
@@ -9,6 +10,8 @@ import Terms from '../views/Terms.vue'
 import Contracts from '../views/Contracts.vue'
 import Confirmation from '../views/Confirmation.vue'
 import Test from '../views/Test.vue'
+import ViewContract from '../views/ViewContract.vue'
+import EditContract from '../views/EditContract.vue'
 
 Vue.use(VueRouter)
 
@@ -25,6 +28,12 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    name: 'Welcome',
+    component: Welcome,
+    props: true
+  },
+  {
+    path: '/imain',
     name: 'iMain',
     component: Main,
     props: true
@@ -76,7 +85,20 @@ const routes = [
     name: 'Test',
     component: Test,
     props: true
+  },
+  {
+    path: '/view-contract',
+    name: 'ViewContract',
+    component: ViewContract,
+    props: true
+  },
+  {
+    path: '/edit-contract',
+    name: 'EditContract',
+    component: EditContract,
+    props: true
   }
+
 ]
 
 const router = new VueRouter({
