@@ -7,21 +7,41 @@
         <h2 class="contracts-heading">Pending Contracts</h2><br><br>
           <div v-if="getAllPendingPromises">
 
-            <div class="contract-list" v-for="(pendingPromiseTitle, i) in getAllPendingPromiseTitles" v-bind:key="i">
+            <div class="contract-list" v-for="(pendingPromiseIndex, i) in getAllPendingPromiseIndices" v-bind:key="i">
               <h5 class="center">{{ getAllPendingPromiseTitles[i] }}</h5> 
               {{ getAllPendingPromises[i] }} <br><br>
               Creator: {{ getAllPendingPromiseBuilders[i] }}<br>
               Recipient: {{ getAllPendingPromiseRecipients[i] }}<br>
-              <!--<div class="center"><button>Sign</button><button>Reject</button></div> -->
+              <div class="center"><button v-on:click="signPromise(pendingPromiseIndex)">Sign</button>
+              <button v-on:click="rejectPromise(pendingPromiseIndex)">Reject</button></div>
             </div>
-
           </div>
       </div>
       <div class="signed center">
-        <h2 class="contracts-heading">Signed Contracts</h2>
+        <h2 class="contracts-heading">Signed Contracts</h2><br><br>
+            <div v-if="getAllSignedPromises">
+
+              <div class="contract-list" v-for="(signedPromiseTitle, i) in getAllSignedPromiseTitles" v-bind:key="i">
+                <h5 class="center">{{ getAllSignedPromiseTitles[i] }}</h5> 
+                {{ getAllSignedPromises[i] }} <br><br>
+                Creator: {{ getAllSignedPromiseBuilders[i] }}<br>
+                Recipient: {{ getAllSignedPromiseRecipients[i] }}<br>
+              </div>
+
+          </div>
       </div>
       <div class="rejected center">
-        <h2 class="contracts-heading">Rejected Contracts</h2>
+        <h2 class="contracts-heading">Rejected Contracts</h2><br><br> 
+            <div v-if="getAllRejectedPromises">
+
+              <div class="contract-list" v-for="(rejectedPromiseTitle, i) in getAllRejectedPromiseTitles" v-bind:key="i">
+                <h5 class="center">{{ getAllRejectedPromiseTitles[i] }}</h5> 
+                {{ getAllRejectedPromises[i] }} <br><br>
+                Creator: {{ getAllRejectedPromiseBuilders[i] }}<br>
+                Recipient: {{ getAllRejectedPromiseRecipients[i] }}<br>
+              </div>
+
+          </div>
       </div>
     </div>
     <div class="center-screen" v-else>
@@ -39,7 +59,7 @@ export default {
   name: 'contracts',
   data () {
     return {
-  
+ 
     }
   },
   computed: {
@@ -107,6 +127,20 @@ export default {
       return data;
     },
 
+    /**
+     * This function returns the list of the indices of the pending promises for a single user.
+     * @returns An array of integers that contain Promise indices.
+     */
+
+    getAllPendingPromiseIndices() {
+      let data = this.getContractData({
+        contract: "SolidPromise",
+        method: "viewAllPendingPromiseIndices"
+      });
+      if (data === "loading") return false;
+      return data;
+    },
+
     /*************************End of Functions for Pending************************************************* */
 
     /**************************Functions for Signed Promises************************************************ */
@@ -168,6 +202,66 @@ export default {
     },
     /*************************End of Functions for Signed************************************************* */
 
+    /*************************Start of Functions for Rejected********************************************* */
+    
+    /**
+     *  This function returns the list of rejected promises for a single user.
+     *  data contains an array of strings.
+     *  @returns An array of strings that contain Promise details.
+     */
+    getAllRejectedPromises() {
+      let data = this.getContractData({
+        contract: "SolidPromise",
+        method: "viewAllRejectedPromises"
+      });
+      if (data === "loading") return false;
+      return data;
+    },
+
+    /**
+     * This function returns the list of the titles of the rejected promises for a single user.
+     * @returns An array of strings that contain Promise titles.
+     */
+
+    getAllRejectedPromiseTitles() {
+      let data = this.getContractData({
+        contract: "SolidPromise",
+        method: "viewAllRejectedPromiseTitles"
+      });
+      if (data === "loading") return false;
+      return data;
+    },
+
+    /**
+     * This function returns the list of the creators of the rejected promises for a single user.
+     * @returns An array of strings that contain Promise titles.
+     */
+
+    getAllRejectedPromiseBuilders() {
+      let data = this.getContractData({
+        contract: "SolidPromise",
+        method: "viewAllRejectedPromiseBuilders"
+      });
+      if (data === "loading") return false;
+      return data;
+    },
+
+    /**
+     * This function returns the list of the recipients of the rejected promises for a single user.
+     * @returns An array of strings that contain Promise titles.
+     */
+
+    getAllRejectedPromiseRecipients() {
+      let data = this.getContractData({
+        contract: "SolidPromise",
+        method: "viewAllRejectedPromiseRecipients"
+      });
+      if (data === "loading") return false;
+      return data;
+    },
+
+    /*************************End of Functions for Rejected************************************************* */
+
     // Utilities needed to transform bytes to strings
     utils() {
       return this.drizzleInstance.web3.utils;
@@ -199,7 +293,7 @@ export default {
       methodArgs: []
     });
 
-        this.$store.dispatch("drizzle/REGISTER_CONTRACT", {
+    this.$store.dispatch("drizzle/REGISTER_CONTRACT", {
       contractName: "SolidPromise",
       method: "viewAllSignedPromises",
       methodArgs: []
@@ -223,8 +317,48 @@ export default {
       methodArgs: []
     });
 
+    this.$store.dispatch("drizzle/REGISTER_CONTRACT", {
+      contractName: "SolidPromise",
+      method: "viewAllRejectedPromises",
+      methodArgs: []
+    });
+
+    this.$store.dispatch("drizzle/REGISTER_CONTRACT", {
+      contractName: "SolidPromise",
+      method: "viewAllRejectedPromiseTitles",
+      methodArgs: []
+    });
+
+    this.$store.dispatch("drizzle/REGISTER_CONTRACT", {
+      contractName: "SolidPromise",
+      method: "viewAllRejectedPromiseBuilders",
+      methodArgs: []
+    });
+
+    this.$store.dispatch("drizzle/REGISTER_CONTRACT", {
+      contractName: "SolidPromise",
+      method: "viewAllRejectedPromiseRecipients",
+      methodArgs: []
+    });
+
+    this.$store.dispatch("drizzle/REGISTER_CONTRACT", {
+      contractName: "SolidPromise",
+      method: "viewAllPendingPromiseIndices",
+      methodArgs: []
+    });   
     
-    
+  },
+  methods: {
+    signPromise(index) {
+      this.drizzleInstance.contracts['SolidPromise'].methods['signPromise'].cacheSend(
+        parseInt(index)
+      )
+    },
+    rejectPromise(index) {
+      this.drizzleInstance.contracts['SolidPromise'].methods['rejectPromise'].cacheSend(
+        parseInt(index)
+      )
+    }
   },
   components: { MyHeader, MyFooter }
 }

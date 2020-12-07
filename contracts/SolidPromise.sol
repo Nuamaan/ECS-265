@@ -180,13 +180,19 @@ contract SolidPromise
         require(msg.sender == pendingPromises[index].builderAccount.accountAddress || msg.sender == pendingPromises[index].recipientAccount.accountAddress);
         return addressToString(pendingPromises[index].recipientAccount.accountAddress);
     }
-    
 
     /**
      * This function is used by the recipient party in order to sign and confirm the promise.
      * This function will fail if a party not involved with the contract attempts to sign it by using its index.
-     * @param index The index of the promise in the pendingPromises mapping.
+     * @return index The index of the promise in the pendingPromises mapping.
      */
+    
+    function viewPromiseIndex(uint256 index) public view returns(uint)
+    {
+        require(msg.sender == pendingPromises[index].builderAccount.accountAddress || msg.sender == pendingPromises[index].recipientAccount.accountAddress);
+        return pendingPromises[index].promiseIndex;
+    }
+     
 
     function signPromise(uint256 index) public payable 
     {
@@ -204,7 +210,7 @@ contract SolidPromise
         signedArchive[msg.sender].push(index);    
 
         // Add the index of this promise to the signed archive of creator.                                        
-        signedArchive[pendingPromises[index].recipientAccount.accountAddress].push(index); 
+        signedArchive[pendingPromises[index].builderAccount.accountAddress].push(index); 
         
         
         // After the promise is signed and added to signedArchive, we remove it from the pendingArchive.
@@ -224,10 +230,11 @@ contract SolidPromise
 
 
         // Find the promise in the contract creator's list of pending promises and delete it.
-        userPromises = pendingArchive[pendingPromises[index].builderAccount.accountAddress];
-        for(uint index2; index2 < userPromises.length; index2++)
+        uint256[] memory userPromises2;
+        userPromises2 = pendingArchive[pendingPromises[index].builderAccount.accountAddress];
+        for(uint index2; index2 < userPromises2.length; index2++)
         {
-            if (userPromises[index2] == index)
+            if (userPromises2[index2] == index)
                 delete pendingArchive[pendingPromises[index].builderAccount.accountAddress][index2];
         }
     }
@@ -262,10 +269,11 @@ contract SolidPromise
         }
         
         // Find the promise in the contract creator's list of pending promises and delete it.
-        userPromises = pendingArchive[pendingPromises[index].builderAccount.accountAddress];
-        for(uint index2; index2 < userPromises.length; index2++)
+        uint256[] memory userPromises2;
+        userPromises2 = pendingArchive[pendingPromises[index].builderAccount.accountAddress];
+        for(uint index2; index2 < userPromises2.length; index2++)
         {
-            if (userPromises[index2] == index)
+            if (userPromises2[index2] == index)
                 delete pendingArchive[pendingPromises[index].builderAccount.accountAddress][index2];
         }
     }
@@ -401,6 +409,29 @@ contract SolidPromise
         }
         
         // Return the array of Promise strings.
+        return allPendingPromises;
+    }
+
+    /**
+     * This function helps in signining promises. It returns all of the indices the identify promises
+     * for a single user and returns an array of unit.
+     * @return An unit array containing all of the pending promises for a single user.
+     */
+
+    function viewAllPendingPromiseIndices() public view returns(uint[] memory)
+    {
+        // Retrieve the full list of pending promises for this user.
+        uint256[] memory pendingPromisesAsIntegers = viewPendingPromises();
+
+        uint256[] memory allPendingPromises = new uint256[](pendingPromisesAsIntegers.length);
+
+        // Call viewPromiseIndex on each one and add the indices to the allPendingPromises array.
+        for (uint index = 0; index < pendingPromisesAsIntegers.length; index++)
+        {
+            allPendingPromises[index] = viewPromiseIndex(pendingPromisesAsIntegers[index]);
+        }
+
+        // Return the array of Promise indices.
         return allPendingPromises;
     }
     /******************************Pending Promises Helpers End**********************************************/
