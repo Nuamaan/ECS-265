@@ -2,9 +2,9 @@
   <div class="main">
     <my-header></my-header>
     <main class="center">
-      <h1>What we do</h1>
+      <h1>What We Do</h1>
       <br>
-      <p>
+      <p class="main-info">
         Making informal agreements is so prevalent in our global society that many often neglect to take into consideration the ramifications that such agreements can hold.
         With our technological innovation, we aim to put an end to the majority of lawsuits that stem from the broken terms of a verbal contract. 
         Our system allows users to quickly and easily generate a binding agreement between two or more parties, and these agreements will be authenticated by a blockchain.
@@ -59,3 +59,15 @@ export default {
   // }
 }
 </script>
+
+
+<style scoped>
+.main-info {
+  border:5px solid #b2d8d8;
+  border-width: 25%;
+  background-color: #E0E0E0;
+  border-radius: 5px;
+  padding: 10px 10px 10px 10px;
+
+}
+</style>

@@ -1,6 +1,7 @@
 p {
   font-size: large;
-  color: #7d7e7e;
+  /* color: #7d7e7e; */
+  color: #404040;
 }
 
 h1 {
@@ -10,7 +11,8 @@ h1 {
 }
 
 body {
-    background-color: #d7dce2;
+    /* background-color: #d7dce2; */
+    background: linear-gradient(110deg, #d7dce2 60%, #ffed4b 60%);
 }
 .cart {
   padding: 20px 50px;

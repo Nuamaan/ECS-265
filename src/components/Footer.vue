@@ -36,7 +36,8 @@ a {
 
 .footer
 {
-    color: #7d7e7e;;
+    /* color: #7d7e7e; */
+    color: #404040;
 }
 
 p { display: inline }

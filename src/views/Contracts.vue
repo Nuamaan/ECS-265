@@ -12,8 +12,8 @@
               {{ getAllPendingPromises[i] }} <br><br>
               Creator: {{ getAllPendingPromiseBuilders[i] }}<br>
               Recipient: {{ getAllPendingPromiseRecipients[i] }}<br>
-              <div class="center"><button v-on:click="signPromise(pendingPromiseIndex)">Sign</button>
-              <button v-on:click="rejectPromise(pendingPromiseIndex)">Reject</button></div>
+              <div class="center"><button class="sign-button" v-on:click="signPromise(pendingPromiseIndex)">Sign</button>
+              <button class="reject-button" v-on:click="rejectPromise(pendingPromiseIndex)">Reject</button></div>
             </div>
           </div>
       </div>
@@ -389,8 +389,26 @@ export default {
 }
 
 .contract-list {
-  border:1px solid black;
+  border:5px solid #b2d8d8;
   border-width: 25%;
   text-align: left;
+  background-color: #F0F0F0;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 5px 10px 5px 10px;
+}
+
+.reject-button {
+  background-color: darksalmon;
+  border: 1px solid black;
+  color: black;
+  font-weight: bold;
+}
+
+.sign-button {
+  background-color: darkseagreen;
+  border: 1px solid black;
+  color:black;
+  font-weight: bold;
 }
 </style>

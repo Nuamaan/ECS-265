@@ -50,10 +50,11 @@ a {
 }
 
 .router-link-exact-active {
-  color: #174f7e;
+  /* color: #174f7e; */
   font-size: 25px;
   margin: 0%;
   padding: 0%;
+  color: whitesmoke;
 }
 
 .logo {
@@ -89,5 +90,9 @@ h1 {
 
 .big{
   font-size: 25px;
+}
+
+header {
+  background-color:#66b2b2;
 }
 </style>
