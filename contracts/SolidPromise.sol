@@ -232,7 +232,7 @@ contract SolidPromise
         // Find the promise in the contract creator's list of pending promises and delete it.
         uint256[] memory userPromises2;
         userPromises2 = pendingArchive[pendingPromises[index].builderAccount.accountAddress];
-        for(uint index2; index2 < userPromises2.length; index2++)
+        for(uint index2 = 0; index2 < userPromises2.length; index2++)
         {
             if (userPromises2[index2] == index)
                 delete pendingArchive[pendingPromises[index].builderAccount.accountAddress][index2];
@@ -271,7 +271,7 @@ contract SolidPromise
         // Find the promise in the contract creator's list of pending promises and delete it.
         uint256[] memory userPromises2;
         userPromises2 = pendingArchive[pendingPromises[index].builderAccount.accountAddress];
-        for(uint index2; index2 < userPromises2.length; index2++)
+        for(uint index2 = 0; index2 < userPromises2.length; index2++)
         {
             if (userPromises2[index2] == index)
                 delete pendingArchive[pendingPromises[index].builderAccount.accountAddress][index2];

@@ -4,7 +4,7 @@
             <div class="navbar-header">
               <h1 class="test">
                  <div class="logo">
-                   <img v-on:click="showMain" class="centerlogo" src="../assets/PR logo.png" width="82" height="82" alt="Logo">
+                   <img v-on:click="showMain" class="centerlogo" src="../assets/PR logo.png" width="50" height="50" alt="Logo">
                   </div>
                 <router-link class="big router-link-exact-active" v-bind:to="{name: 'iMain'}">{{ sitename }}</router-link>
               </h1>
@@ -88,6 +88,6 @@ h1 {
 }
 
 .big{
-  font-size: 80%;
+  font-size: 25px;
 }
 </style>
