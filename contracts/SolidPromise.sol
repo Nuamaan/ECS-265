@@ -224,8 +224,18 @@ contract SolidPromise
         // Find the promise in the recipient's list of pending promises and delete it.
         for (uint index2; index2 < userPromises.length; index2++)
         {
-            if (userPromises[index2] == index)
-                delete pendingArchive[msg.sender][index2];
+            if (userPromises[index2] == index) // Found it
+            {
+                // Shift all promises in the array left one spot at the point of deletion to replace deleted promise.
+                for (uint i = index2; i < pendingArchive[msg.sender].length - 1; i++)
+                {
+                    pendingArchive[msg.sender][index2] = pendingArchive[msg.sender][index2 + 1];
+
+                }
+                // Delete the last element.
+                pendingArchive[msg.sender].pop();   
+            }
+                
         }
 
 
@@ -234,8 +244,17 @@ contract SolidPromise
         userPromises2 = pendingArchive[pendingPromises[index].builderAccount.accountAddress];
         for(uint index2 = 0; index2 < userPromises2.length; index2++)
         {
-            if (userPromises2[index2] == index)
-                delete pendingArchive[pendingPromises[index].builderAccount.accountAddress][index2];
+            if (userPromises2[index2] == index) // Found it
+            {
+                // Shift all promises in the array left one spot at the point of deletion to replace deleted promise.
+                 for (uint i = index2; i < pendingArchive[pendingPromises[index].builderAccount.accountAddress].length - 1; i++)
+                {
+                    pendingArchive[pendingPromises[index].builderAccount.accountAddress][index2] = pendingArchive[pendingPromises[index].builderAccount.accountAddress][index2 + 1];
+                }
+
+                // Delete the last element.
+                pendingArchive[pendingPromises[index].builderAccount.accountAddress].pop();
+            }
         }
     }
     
@@ -264,8 +283,19 @@ contract SolidPromise
 
         for (uint index2; index2 < userPromises.length; index2++)
         {
+            // Found it.
             if (userPromises[index2] == index)
-                delete pendingArchive[msg.sender][index2];
+            {
+                // Shift all promises in the array left one spot at the point of deletion to replace deleted promise.
+                for (uint i = index2; i < pendingArchive[msg.sender].length - 1; i++)
+                {
+                    pendingArchive[msg.sender][index2] = pendingArchive[msg.sender][index2 + 1];
+
+                }
+                // Delete the last element.
+                pendingArchive[msg.sender].pop();   
+
+            }
         }
         
         // Find the promise in the contract creator's list of pending promises and delete it.
@@ -273,8 +303,19 @@ contract SolidPromise
         userPromises2 = pendingArchive[pendingPromises[index].builderAccount.accountAddress];
         for(uint index2 = 0; index2 < userPromises2.length; index2++)
         {
+            // Found it.
             if (userPromises2[index2] == index)
-                delete pendingArchive[pendingPromises[index].builderAccount.accountAddress][index2];
+            {
+                // Shift all promises in the array left one spot at the point of deletion to replace deleted promise.
+                 for (uint i = index2; i < pendingArchive[pendingPromises[index].builderAccount.accountAddress].length - 1; i++)
+                {
+                    pendingArchive[pendingPromises[index].builderAccount.accountAddress][index2] = pendingArchive[pendingPromises[index].builderAccount.accountAddress][index2 + 1];
+                }
+
+                // Delete the last element.
+                pendingArchive[pendingPromises[index].builderAccount.accountAddress].pop();
+
+            }
         }
     }
     
