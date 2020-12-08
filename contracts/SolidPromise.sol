@@ -87,6 +87,9 @@ contract SolidPromise
         
         // When calling the function, require builder to be the person who is creating contract.
         require(msg.sender == builder);
+
+        // When calling the function, prevent the builder from also being the recipient.
+        require(msg.sender != recipient);
         
         //require(msg.value==2 e);
         manager.transfer(msg.value);       // Ethers are passed to the manager,,,calling addPromise function would cost the builder.
