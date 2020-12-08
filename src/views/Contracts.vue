@@ -12,8 +12,8 @@
               {{ getAllPendingPromises[i] }} <br><br>
               Creator: {{ getAllPendingPromiseBuilders[i] }}<br>
               Recipient: {{ getAllPendingPromiseRecipients[i] }}<br>
-              <div class="center"><button class="sign-button" v-on:click="signPromise(pendingPromiseIndex)">Sign</button>
-              <button class="reject-button" v-on:click="rejectPromise(pendingPromiseIndex)">Reject</button></div>
+              <div class="center"><button v-if="isRecipient(getAllPendingPromiseRecipients[i])" class="sign-button" v-on:click="signPromise(pendingPromiseIndex)">Sign</button>
+              <button v-if="isRecipient(getAllPendingPromiseRecipients[i])" class="reject-button" v-on:click="rejectPromise(pendingPromiseIndex)">Reject</button></div>
             </div>
           </div>
       </div>
@@ -55,10 +55,13 @@
 import MyHeader from '../components/Header.vue'
 import MyFooter from '../components/Footer.vue'
 import { mapGetters } from "vuex";
+import Web3 from 'web3';
+var web3 = new Web3(Web3.givenProvider || 'ws://some.local-or-remote.node:9545');
 export default {
   name: 'contracts',
   data () {
     return {
+      account: '',
  
     }
   },
@@ -345,7 +348,12 @@ export default {
       contractName: "SolidPromise",
       method: "viewAllPendingPromiseIndices",
       methodArgs: []
-    });   
+    }); 
+    
+    web3.eth.getAccounts().then(accounts => { 
+      let account = accounts[0];
+      this.account = account;
+      });
     
   },
   methods: {
@@ -358,7 +366,13 @@ export default {
       this.drizzleInstance.contracts['SolidPromise'].methods['rejectPromise'].cacheSend(
         parseInt(index)
       )
+    },
+    isRecipient(recipient)
+    {
+      let recipientCheck = recipient.toString().substring(0, 42).toLowerCase() == this.account.toString().substring(0, 42).toLowerCase();
+      return recipientCheck;
     }
+    
   },
   components: { MyHeader, MyFooter }
 }
