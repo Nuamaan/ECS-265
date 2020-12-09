@@ -36,8 +36,10 @@ a {
 
 .footer
 {
-    /* color: #7d7e7e; */
     color: #404040;
+    height: 60px;
+    padding: 20px;
+    bottom: 0;
 }
 
 p { display: inline }

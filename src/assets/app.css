@@ -13,6 +13,8 @@ h1 {
 body {
     /* background-color: #d7dce2; */
     background: linear-gradient(110deg, #d7dce2 60%, #ffed4b 60%);
+    padding-bottom: 58px;
+    min-height: 100vh;
 }
 .cart {
   padding: 20px 50px;
