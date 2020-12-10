@@ -10,13 +10,15 @@
               </h1>
             </div>
              
-              <h1>
-                <p class="inline"> {{this.account}}  </p>
-                <div class="contractsdivider"></div>
-                <router-link class="router-link-exact-active" v-bind:to="{name: 'Contracts'}">{{ contractslink }}</router-link>
-                <div class="contractsdivider"></div>
-                <img class="pointer" v-on:click="showContracts" src="../assets/bell_without_notif.png" width="40" height="40" alt="Logo">
-              </h1>
+            <h1>
+              <p class="inlinetitle"> {{ accounttitle }} </p>
+              <p class="inline"> {{this.account}}  </p>
+              <!-- <p class="inline"> {{this.account}}  </p> -->
+              <div class="contractsdivider"></div>
+              <router-link class="router-link-exact-active" v-bind:to="{name: 'Contracts'}">{{ contractslink }}</router-link>
+              <div class="contractsdivider"></div>
+              <img class="pointer" v-on:click="showContracts" src="../assets/bell_without_notif.png" width="40" height="40" alt="Logo">
+            </h1>
         </div>
     </header>
 </template>
@@ -30,7 +32,8 @@ export default {
     return {
     sitename: "Promise",
     contractslink: "My Contracts",
-    account: ''
+    account: '',
+    accounttitle: "Account: "
     }
   },
   methods: {
@@ -109,9 +112,20 @@ header {
   background-color:#66b2b2;
 }
 
-.inline {
+.inlinetitle {
+  font-size: 15px;
   display: inline;
-  color: whitesmoke;
+  color: #404040;
+  text-align: right;
+}
+
+.inline {
+  /* font-size: large; */
+  font-weight: normal;
+  font-size: 15px;
+  display: inline;
+  /* color: whitesmoke; */
+  color: #404040;
   text-align: right;
 }
 
