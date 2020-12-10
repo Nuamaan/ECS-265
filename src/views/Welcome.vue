@@ -54,6 +54,11 @@ export default {
 </script>
 
 <style scoped>
+main {
+    background-color: #d7dce2;
+    padding-bottom: 58px;
+    min-height: 100vh;
+}
 
 .fadeout {
   animation: fadeout 4s forwards;
