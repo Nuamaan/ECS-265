@@ -1,16 +1,24 @@
 p {
   font-size: large;
-  color: #7d7e7e;
+  /* color: #7d7e7e; */
+  color: #404040;
 }
 
 h1 {
     padding: 10px 20px;
-    color: #174f7e;
+    /* color: #174f7e; */
+    padding-top: 50px;
+    color: #132640;
     font-weight: bold;
 }
 
 body {
-    background-color: #d7dce2;
+    /* background-color: #d7dce2; */
+    /* background: linear-gradient(110deg, #d7dce2 60%, #ffed4b 60%); */
+    background: linear-gradient(110deg, #e3e3e3 60%, #3f506576 60%);
+    position: relative;
+    padding-bottom: 58px;
+    min-height: 100vh;
 }
 .cart {
   padding: 20px 50px;

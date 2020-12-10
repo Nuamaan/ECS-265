@@ -12,18 +12,26 @@
       <br>
       <br>
       <button type="button" class="btn btn-light btn-lg" v-on:click="showCreate">Create a contract</button>
-      <!-- <div class="divider"></div>
-      <button type="button" class="btn btn-light btn-lg" v-on:click="showShare">Share your address</button> -->
+
     </main>
     <my-footer></my-footer>
   </div>
 </template>
 
 <script>
+// import Metamask from '../components/Metamask'
 import MyHeader from '../components/Header.vue'
 import MyFooter from '../components/Footer.vue'
+import Contracts from '../views/Contracts.vue'
+
 export default {
   name: 'imain',
+  // beforeCreate () {
+  //   console.log('registerWeb3 Action dispatched from Main.vue')
+  //   this.$store.dispatch('registerWeb3')
+  // },
+  // components: { 'metamask': Metamask },
+  components: { MyHeader, MyFooter },
   data () {
     return {
   
@@ -42,8 +50,7 @@ export default {
         /* wait */
       }
     }
-  },
-  components: { MyHeader, MyFooter }
+  }
   // created: function() {
     // axios.get('/static/products.json')
     // .then((response) =>{
@@ -59,3 +66,13 @@ export default {
   // }
 }
 </script>
+
+<style scoped>
+.main-info {
+  border:5px solid #b2d8d8;
+  border-width: 25%;
+  background-color: #E0E0E0;
+  border-radius: 5px;
+  padding: 10px 10px 10px 10px;
+}
+</style>

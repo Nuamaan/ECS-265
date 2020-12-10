@@ -1,6 +1,5 @@
 // Import contracts
-// import Migrations from '../build/contracts/Migrations.json'
-import Promise from '../build/contracts/Promise.json'
+import SolidPromise from '../build/contracts/SolidPromise.json'
 
 
 /**
@@ -9,12 +8,12 @@ import Promise from '../build/contracts/Promise.json'
  */
 
 const options = {
-    contracts: [Promise],
-    // events: {
-    //   Promise: [
-    //     "notify"
-    //   ]
-    // },
+    contracts: [SolidPromise],
+    events: {
+      SolidPromise: [
+        "notify"
+      ]
+    },
     polls: {
       blocks: 3000
     },
@@ -27,4 +26,4 @@ const options = {
     }
   }
 
-export default options
+export default options;

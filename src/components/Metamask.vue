@@ -11,13 +11,13 @@
 export default {
  name: 'metamask',
  computed: {
-    web3 () {
-        return this.$store.state.web3
-     }
- }
+  web3 () {
+      return this.$store.state.web3
+    }
+  }
 }
 </script>
 
 <style scoped>
 
-</style>
+</style> 

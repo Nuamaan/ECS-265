@@ -3,14 +3,17 @@
         <div class="navbar navbar-default">
             <div class="navbar-header">
               <h1 class="test">
-                 <div class="logo"><img v-on:click="showMain" class="centerlogo" src="../assets/hand_shake_logo.png" width="40" height="40" alt="Logo"></div>
-                <router-link class="router-link-exact-active" v-bind:to="{name: 'iMain'}">{{ sitename }}</router-link>
+                  <div class="logo">
+                    <img v-on:click="showMain" class="centerlogo" src="../assets/PR logo smooth.png" width="50" height="50" alt="Logo">
+                  </div>
+                  <div class="logodivider"></div>
+                  <router-link class="big router-link-exact-active" v-bind:to="{name: 'iMain'}">{{ sitename }}</router-link>
               </h1>
             </div>
               <h1>
-                <router-link class="router-link-exact-active" v-bind:to="{name: 'Contracts'}">{{ contractslink }}</router-link>
-                <div class="contractsdivider"></div>
-                <img class="pointer" v-on:click="showContracts" src="../assets/bell_without_notif.png" width="40" height="40" alt="Logo">
+                  <router-link class="router-link-exact-active" v-bind:to="{name: 'Contracts'}">{{ contractslink }}</router-link>
+                  <div class="contractsdivider"></div>
+                    <img class="pointer" v-on:click="showContracts" src="../assets/bell_without_notif.png" width="40" height="40" alt="Logo">
               </h1>
         </div>
     </header>
@@ -48,15 +51,18 @@ a {
 }
 
 .router-link-exact-active {
-  color: #174f7e;
+  /* color: #174f7e; */
   font-size: 25px;
   margin: 0%;
   padding: 0%;
+  color: rgba(245, 245, 245, 0.976);
+  /* color: #132640; */
 }
 
 .logo {
   padding: 0%;
   margin: 0%;
+  display: inline;
 }
 
 h1 {
@@ -68,10 +74,15 @@ h1 {
 }
 
 .centerlogo {
-  display: block;
+  display: inline;
   margin-left: auto;
   margin-right: auto;  
   cursor: pointer;  
+}
+.logodivider{
+  width:5px;
+  height:auto;
+  display:inline-block;
 }
 
 .contractsdivider{
@@ -82,5 +93,17 @@ h1 {
 
 .pointer{
   cursor: pointer;  
+}
+
+.big{
+  font-size: 25px;
+}
+
+header {
+  /* background-color:#66b2b2; */
+  background-color:#688EA6;
+  -moz-box-shadow: 0 6px 6px -6px #5c7789c1;
+  -webkit-box-shadow: 0 6px 6px -6px #5c7789c1;
+  box-shadow: 0 6px 6px -6px #5c7789c1;
 }
 </style>
