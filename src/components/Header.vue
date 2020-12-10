@@ -9,7 +9,10 @@
                 <router-link class="big router-link-exact-active" v-bind:to="{name: 'iMain'}">{{ sitename }}</router-link>
               </h1>
             </div>
+             
               <h1>
+                <p class="inline"> {{this.account}}  </p>
+                <div class="contractsdivider"></div>
                 <router-link class="router-link-exact-active" v-bind:to="{name: 'Contracts'}">{{ contractslink }}</router-link>
                 <div class="contractsdivider"></div>
                 <img class="pointer" v-on:click="showContracts" src="../assets/bell_without_notif.png" width="40" height="40" alt="Logo">
@@ -19,12 +22,15 @@
 </template>
 
 <script>
+import Web3 from 'web3';
+var web3 = new Web3(Web3.givenProvider || 'ws://some.local-or-remote.node:9545');
 export default {
   name: 'my-header',
   data () {
     return {
     sitename: "Promise",
-    contractslink: "My Contracts"
+    contractslink: "My Contracts",
+    account: ''
     }
   },
   methods: {
@@ -38,6 +44,13 @@ export default {
       this.$router.push({name: 'iMain'});
     },
 
+  },
+  created() {
+    web3.eth.getAccounts().then(accounts => { 
+      let account = accounts[0];
+      this.account = account;
+      console.log(this.account);
+      });
   }
 }
 </script>
@@ -94,5 +107,17 @@ h1 {
 
 header {
   background-color:#66b2b2;
+}
+
+.inline {
+  display: inline;
+  color: whitesmoke;
+  text-align: right;
+}
+
+.divider{
+  width:300px;
+  height:auto;
+  display:inline;
 }
 </style>
