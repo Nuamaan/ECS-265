@@ -40,7 +40,6 @@ a {
     height: 60px;
     padding: 20px;
     color: #404040;
-    position: absolute;
     bottom: 0;
 }
 
