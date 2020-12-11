@@ -83,10 +83,16 @@ input{
 
 
   /* Custom from Create Page */
-  background-color:#d7dce2;
-  border: #7d7e7e solid;
-  border-width: 2px;
+  /*background-color:#d7dce2;
+    border: #7d7e7e solid; 
+    border-width: 2px;
+    margin-bottom: 10px; */
+  background-color:#efefef;
   margin-bottom: 10px;
+  -moz-box-shadow: 0px 0px 15px #5c7789c1;
+  -webkit-box-shadow: 0px 0px 15px #5c7789c1;
+  box-shadow: 0px 0px 15px #5c7789c1;
+
 
   /**  */
   height: 50px;

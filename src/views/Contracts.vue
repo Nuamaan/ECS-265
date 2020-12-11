@@ -379,6 +379,11 @@ export default {
 </script>
 
 <style scoped>
+/** */
+h1 {
+  padding-top: 50px;
+}
+
 .contracts-heading {
   text-align: left;
   display: inline;
@@ -403,26 +408,33 @@ export default {
 }
 
 .contract-list {
-  border:5px solid #b2d8d8;
+  /* border:5px solid #b2d8d8; */
   border-width: 25%;
   text-align: left;
   background-color: #F0F0F0;
   border-radius: 5px;
   margin-bottom: 10px;
   padding: 5px 10px 5px 10px;
+  /**** */
+  -moz-box-shadow: 0px 0px 15px #5c7789;
+  -webkit-box-shadow: 0px 0px 15px #5c7789;
+  box-shadow: 0px 0px 15px #5c7789;
+
 }
 
 .reject-button {
   background-color: darksalmon;
-  border: 1px solid black;
-  color: black;
+  /* border: 1px solid black; */
+  /*  color: black; */
+  color: rgb(48, 47, 47);
   font-weight: bold;
 }
 
 .sign-button {
   background-color: darkseagreen;
-  border: 1px solid black;
-  color:black;
+  /* border: 1px solid black; */
+  /* color:black; */
+  color: rgb(48, 47, 47);
   font-weight: bold;
 }
 </style>
