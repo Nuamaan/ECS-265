@@ -2,8 +2,6 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 require('./assets/app.css')
-// import { store } from './store'
-// import store from './store' 
 import Vuex from 'vuex'
 
 import drizzleVuePlugin from "@drizzle/vue-plugin"
@@ -16,6 +14,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({ state: {} });
 
 Vue.config.productionTip = false
+
 // Register the drizzleVuePlugin
 Vue.use(drizzleVuePlugin, { store, drizzleOptions })
 

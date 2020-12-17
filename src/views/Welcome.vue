@@ -10,14 +10,9 @@
 </template>
 
 <script>
-// import Metamask from '../components/Metamask.vue'
 export default {
   name: 'welcome',
   props: ["isLoading"],
-  // beforeCreate () {
-  //   console.log('registerWeb3 Action dispatched from Welcome.vue')
-  //   this.$store.dispatch('registerWeb3')
-  // },
   data () {
     return {
   
@@ -27,26 +22,9 @@ export default {
     setTimeout( () => this.$router.push({name: 'iMain'}), 2000);
   },
   methods: {
-    // showMain() {
-    //   this.$router.push({name: 'Main'});
-    // },
-    // delay(ms) {
-    //   const startPoint = new Date().getTime();
-    //   while (new Date().getTime() - startPoint <= ms) {
-    //     /* wait */
-    //   }
-    //   /* Transition to main page */
-    //   this.showMain();
-    // }
+
   },
   components: { }
-  // created: function() {
-  //   axios.get('/static/products.json')
-  //   .then((response) =>{
-  //     this.products=response.data.products;
-  //     console.log(this.products);
-  //   });
-  // }
 }
 </script>
 
@@ -67,16 +45,16 @@ main {
     visibility: hidden;
   }
 }
-.logo
-{
+
+.logo {
   position: absolute;
   display: inline-block;
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.logo p 
-{
+
+.logo p {
   position: absolute;
   width: 100%;
   text-align: center;

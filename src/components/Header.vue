@@ -3,8 +3,8 @@
         <div class="navbar navbar-default">
             <div class="navbar-header">
               <h1 class="test">
-                 <div class="logo">
-                   <img v-on:click="showMain" class="centerlogo" src="../assets/PR logo.png" width="50" height="50" alt="Logo">
+                  <div class="logo">
+                    <img v-on:click="showMain" class="centerlogo" src="../assets/PR logo.png" width="50" height="50" alt="Logo">
                   </div>
                   <div class="logodivider"></div>
                 <router-link class="big router-link-exact-active" v-bind:to="{name: 'iMain'}">{{ sitename }}</router-link>
@@ -12,9 +12,8 @@
             </div>
              
             <h1>
-              <p class="inlinetitle"> {{ accounttitle }} </p>
-              <p class="inline"> {{this.account}}  </p>
-              <!-- <p class="inline"> {{this.account}}  </p> -->
+              <p class="inlinetitle"> {{ accounttitle }}</p>
+              <p class="inline"> {{this.account}}</p>
               <div class="contractsdivider"></div>
               <router-link class="router-link-exact-active" v-bind:to="{name: 'Contracts'}">{{ contractslink }}</router-link>
               <div class="contractsdivider"></div>
@@ -67,11 +66,9 @@ a {
 }
 
 .router-link-exact-active {
-  /* color: #174f7e; */
   font-size: 25px;
   margin: 0%;
   padding: 0%;
-  /* color: whitesmoke; */
   color: rgba(245, 245, 245, 0.976);
 }
 
@@ -96,19 +93,19 @@ h1 {
   cursor: pointer;  
 }
 
-.logodivider{
+.logodivider {
   width:5px;
   height:auto;
   display:inline-block;
 }
 
-.contractsdivider{
+.contractsdivider {
   width:15px;
   height:auto;
   display:inline-block;
 }
 
-.pointer{
+.pointer {
   cursor: pointer;  
 }
 
@@ -117,7 +114,6 @@ h1 {
 }
 
 header {
-  /* background-color:#66b2b2; */
   background-color:#688EA6;
   -moz-box-shadow: 0 6px 6px -6px #5c7789c1;
   -webkit-box-shadow: 0 6px 6px -6px #5c7789c1;
@@ -132,16 +128,14 @@ header {
 }
 
 .inline {
-  /* font-size: large; */
   font-weight: normal;
   font-size: 15px;
   display: inline;
-  /* color: whitesmoke; */
   color: #404040;
   text-align: right;
 }
 
-.divider{
+.divider {
   width:300px;
   height:auto;
   display:inline;

@@ -36,13 +36,7 @@ export default {
   methods: {
     createTextArea()
     {
-      /*
-      var textArea = document.createElement("textarea");
-      textArea.cols = 10;
-      textArea.rows = 5;
-      var thirdInputBox = document.getElementsByName("input")[2];
-      thirdInputBox.parentNode.replaceChild(thirdInputBox, textArea);
-      */    
+
     }
 
   },
@@ -51,19 +45,15 @@ export default {
     ...mapGetters("drizzle", ["drizzleInstance", "isDrizzleInitialized"]),
   },
   mounted() {
-    /*
-    this.$nextTick(function() {
-          this.createTextArea();
-    })
-    */
+
   }
 };
 </script>
 
 <style>
-input{
+input {
   /* Bootstrap - class: form-control */
-    display: block;
+  display: block;
   width: 100%;
   height: 34px;
   padding: 6px 12px;
@@ -83,25 +73,18 @@ input{
 
 
   /* Custom from Create Page */
-  /*background-color:#d7dce2;
-    border: #7d7e7e solid; 
-    border-width: 2px;
-    margin-bottom: 10px; */
   background-color:#efefef;
   margin-bottom: 10px;
   -moz-box-shadow: 0px 0px 15px #5c7789c1;
   -webkit-box-shadow: 0px 0px 15px #5c7789c1;
   box-shadow: 0px 0px 15px #5c7789c1;
-
-
-  /**  */
   height: 50px;
 
 }
 
-button{
+button {
   /* Bootstrap - class: btn */
-    display: inline-block;
+  display: inline-block;
   padding: 6px 12px;
   margin-bottom: 0;
   font-size: 14px;
@@ -123,13 +106,10 @@ button{
   content: "Send & Sign Message";
 }
 
-
 input:nth-of-type(3) {
-  /*7 height: 200px; */
   word-wrap: break-word;
   word-break: break-word;
 }
-
 
 form {
     word-wrap: break-word;

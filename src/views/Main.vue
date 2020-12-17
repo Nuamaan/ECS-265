@@ -12,8 +12,6 @@
       <br>
       <br>
       <button type="button" class="btn btn-light btn-lg" v-on:click="showCreate">Create a contract</button>
-      <!-- <div class="divider"></div>
-      <button type="button" class="btn btn-light btn-lg" v-on:click="showShare">Share your address</button> -->
     </main>
     <my-footer></my-footer>
   </div>
@@ -33,9 +31,6 @@ export default {
     showCreate() {
       this.$router.push({name: 'Create'});
     },
-    // showShare() {
-    //   this.$router.push({name: 'Share'});
-    // },
     delay(ms) {
       const startPoint = new Date().getTime();
       while (new Date().getTime() - startPoint <= ms) {
@@ -44,19 +39,6 @@ export default {
     }
   },
   components: { MyHeader, MyFooter }
-  // created: function() {
-    // axios.get('/static/products.json')
-    // .then((response) =>{
-    //   this.products=response.data.products;
-    //   console.log(this.products);
-    // });
-    // axios.get('/static/products.json').then((response) =>{
-    //   this.products=response.data.products;
-    //   console.log(this.products);
-    // }).catch((error) => {
-    //     console.warn('Not good man :(');
-    // });
-  // }
 }
 </script>
 
@@ -68,6 +50,5 @@ export default {
   background-color: #E0E0E0;
   border-radius: 5px;
   padding: 10px 10px 10px 10px;
-
 }
 </style>

@@ -42,32 +42,8 @@ Notes:
 - Make sure to refresh the browser each time you switch Metamask accounts to view the correct information. 
 - If you are writing a contract, remember to switch back to your own Metamask account before clicking the 'Submit' button.
 
-<!-- # promise-frontend
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Run your end-to-end tests
-```
-npm run test:e2e
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/). -->
+## Contributors
+Ikechi Iwuagwu: 912684323, jiiwuagwu@ucdavis.edu\
+Agnieszka Lupinska: 916670964, alupinska@ucdavis.edu\
+Nuamaan Sheikh: 918940663, nisheikh@ucdavis.edu\
+Alicia Siu: 914005515, aclsiu@ucdavis.edu

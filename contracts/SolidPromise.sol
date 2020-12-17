@@ -26,18 +26,17 @@ contract SolidPromise
     /**
      * Constructor
      */
-
     constructor() public 
     {
         manager = msg.sender;
     }
+
 
     /**
      * Modifier
      * Modifiers can be used to change the behaviour of functions in a declarative way.
      * This modifier checks to make sure the sender is the manager before executing the function. 
      */
-
     modifier isManager()
     {
         require(msg.sender == manager);
@@ -45,32 +44,41 @@ contract SolidPromise
     }
 
     
-    /* This event notifies the other participating party of the promise that has been created.*/
-    event notify(
+    /*
+        This event notifies the other participating party of the promise that has been created.
+    */
+    event notify (
         address recipientAccount,
         uint256 promiseIndex,
         string oathTitle,
         string oath
     );
     
-    /* This struct holds the account address of an individual along with their commitment status.*/
+
+    /* 
+        This struct holds the account address of an individual along with their commitment status.
+    */
     struct partyStatus
     {  
         address accountAddress;
         bool commitmentStatus;
     }
     
-    /*A structure that represents our Promise, it contains the index, commitment statuses of the participating parties, and a bool status. */
+
+    /* 
+        A structure that represents our Promise, it contains the index, commitment statuses of the participating parties, and a bool status. 
+    */
     struct Promise 
     {
         uint256 promiseIndex;
         partyStatus builderAccount;
         partyStatus recipientAccount;
-        string oathTitle;   // The title of the contract.
-        string oath;        // The terms of the contract.
+        string oathTitle;       // The title of the contract.
+        string oath;            // The terms of the contract.
         bool status;
     }
    
+
     /**
      * This function is used to create a promise. After the builder creates the contract,
      * it will be added to the pendingContracts mapping of the creator and the recipient.
@@ -82,20 +90,17 @@ contract SolidPromise
      * @param _oath The contacts of the contract.
      * @return The total count of promises.
      */
-
-     function addPromise(address builder, address recipient, string memory _oathTitle, string memory _oath) public payable returns(uint256){ 
-        
+     function addPromise(address builder, address recipient, string memory _oathTitle, string memory _oath) public payable returns(uint256)
+     { 
         // When calling the function, require builder to be the person who is creating contract.
         require(msg.sender == builder);
 
         // When calling the function, prevent the builder from also being the recipient.
         require(msg.sender != recipient);
         
-        //require(msg.value==2 e);
-        manager.transfer(msg.value);       // Ethers are passed to the manager,,,calling addPromise function would cost the builder.
+        manager.transfer(msg.value);       // Ethers are passed to the manager, calling addPromise function would cost the builder.
 
         totalPromiseCount++;               // Increment the total promise count by 1. 
-       // pendingProm.push(_oath);
 
         /**
          * pendingPromises is a mapping. What this function does is add the newly created promise to the pendingPromises mapping 
@@ -122,8 +127,7 @@ contract SolidPromise
          * The following code adds the pending promise to the pending archive of both the contract creator and recipient.
          * This mapping associates each address with an individual array of itself that will hold all of their contracts.
          */
-
-        pendingArchive[builder].push(totalPromiseCount); // pushing the promise index into the unconfirmed  mapping keyed by the address.
+        pendingArchive[builder].push(totalPromiseCount);    // Pushing the promise index into the unconfirmed  mapping keyed by the address.
         pendingArchive[recipient].push(totalPromiseCount);
 
         
@@ -134,18 +138,19 @@ contract SolidPromise
         
     }
 
+
     /**
      * This function is used by the involved parties in order to view the contents of the contract.
      * This function will fail if a user not involved with the contract attempts to view it by using index.
      * @param index The index of promise that is within the pendingPromises mapping.
      * @return The contents of the promise.
      */
-
      function viewPromise(uint256 index) public view returns(string memory)
      { 
         require(msg.sender == pendingPromises[index].builderAccount.accountAddress || msg.sender == pendingPromises[index].recipientAccount.accountAddress);
         return pendingPromises[index].oath;
     }
+
 
     /**
      * This function is used by the involved parties in order to view the title of the contract.
@@ -153,43 +158,42 @@ contract SolidPromise
      * @param index The index of promise that is within the pendingPromises mapping.
      * @return The contents of the promise.
      */
-
      function viewPromiseTitle(uint256 index) public view returns(string memory)
      { 
         require(msg.sender == pendingPromises[index].builderAccount.accountAddress || msg.sender == pendingPromises[index].recipientAccount.accountAddress);
         return pendingPromises[index].oathTitle;
     }
 
+
     /**
      * This function is used by the involved parties in order to view the public address of the creator of a contract.
      * This function will fail if a user not involved with the contract attempts to view it by using index.
      * @return The contract creator's public address converted to a string.
      */
-
     function viewPromiseBuilderAddress(uint256 index) public view returns(string memory)
     {
         require(msg.sender == pendingPromises[index].builderAccount.accountAddress || msg.sender == pendingPromises[index].recipientAccount.accountAddress);
         return addressToString(pendingPromises[index].builderAccount.accountAddress);
     }
 
+
     /**
      * This function is used by the involved parties in order to view the public address of the recipient of a contract.
      * This function will fail if a user not involved with the contract attempts to view it by using index.
      * @return The contract recipient's public address converted to a string.
      */
-
     function viewPromiseRecipientAddress(uint256 index) public view returns(string memory)
     {
         require(msg.sender == pendingPromises[index].builderAccount.accountAddress || msg.sender == pendingPromises[index].recipientAccount.accountAddress);
         return addressToString(pendingPromises[index].recipientAccount.accountAddress);
     }
 
+
     /**
      * This function is used by the recipient party in order to sign and confirm the promise.
      * This function will fail if a party not involved with the contract attempts to sign it by using its index.
      * @return index The index of the promise in the pendingPromises mapping.
      */
-    
     function viewPromiseIndex(uint256 index) public view returns(uint)
     {
         require(msg.sender == pendingPromises[index].builderAccount.accountAddress || msg.sender == pendingPromises[index].recipientAccount.accountAddress);
@@ -262,19 +266,19 @@ contract SolidPromise
         }
     }
     
+
     /**
      * This function is used by the recipient in order to reject the promise.
      * After the promise is rejected it is added to the rejectedPromises mapping.
      * This function will fail if it is called by an account that is not the recipient to the promise.
      * @param index The index of the promise in the pendingPromises mapping.
      */
-
     function rejectPromise(uint256 index) public  
     {
         require(msg.sender == pendingPromises[index].recipientAccount.accountAddress);
 
-        pendingPromises[index].status = false;                  // Set the status of this promise to false.
-        rejectedPromises[index] = pendingPromises[index];       // Add this promise to the rejectPromises mapping at the exact same index?
+        pendingPromises[index].status = false;                   // Set the status of this promise to false.
+        rejectedPromises[index] = pendingPromises[index];        // Add this promise to the rejectPromises mapping at the exact same index?
         rejectedArchive[msg.sender].push(index);                 // Add the index of this promise to the array of rejectedPromises for this user.
         rejectedArchive[pendingPromises[index].builderAccount.accountAddress].push(index);  // Add the index of this promise to the array of rejectedPromises for creator.
         
@@ -323,6 +327,7 @@ contract SolidPromise
         }
     }
     
+
     /**
      * This function confirms promises and transfers them to the signedPromises mapping.
      * This function fails if it is called by a user not involved in the contract.
@@ -337,6 +342,7 @@ contract SolidPromise
         
     }
 
+
     /**
      * This function returns an array containing all of the signed promises for one user.
      * @return An array containing all signed contracts for user.
@@ -345,6 +351,7 @@ contract SolidPromise
     {
        return signedArchive[msg.sender];
     }
+
 
     /**
      * This function returns a mapping containing all of the rejected promises for one user.
@@ -355,6 +362,7 @@ contract SolidPromise
         return rejectedArchive[msg.sender];
     }
     
+
     /**
      * This function returns a mapping containing all of the pending promises for one user.
      * @return A mapping containing all pending contracts for user.
@@ -364,13 +372,13 @@ contract SolidPromise
         return pendingArchive[msg.sender];   
     }
 
+
     /******************************Pending Promises Helpers Start**********************************************/
     /**
      * This function helps in viewing promises. It prints all of the pending promise titles and contents
      * for a single user and returns an array of strings.
      * @return A string array containing all of the pending promises for a single user.
      */
-
     function viewAllPendingPromises() public view returns(string[] memory)
     {
         // Retrieve the full list of pending promises for this user.
@@ -388,12 +396,12 @@ contract SolidPromise
         return allPendingPromises;
     }
 
+
     /**
      * This function helps in viewing promises. It prints all of the pending promise titles and contents
      * for a single user and returns an array of strings.
      * @return A string array containing all of the pending promises for a single user.
      */
-
     function viewAllPendingPromiseTitles() public view returns(string[] memory)
     {
         // Retrieve the full list of pending promises for this user.
@@ -411,12 +419,12 @@ contract SolidPromise
         return allPendingPromises;
     }
 
-        /**
+
+    /**
      * This function helps in viewing promises. It prints all of the pending promise titles and contents
      * for a single user and returns an array of strings.
      * @return A string array containing all of the pending promises for a single user.
      */
-
     function viewAllPendingPromiseBuilders() public view returns(string[] memory)
     {
         // Retrieve the full list of pending promises for this user.
@@ -434,12 +442,12 @@ contract SolidPromise
         return allPendingPromises;
     }
 
+
     /**
      * This function helps in viewing promises. It prints all of the pending promise titles and contents
      * for a single user and returns an array of strings.
      * @return A string array containing all of the pending promises for a single user.
      */
-
     function viewAllPendingPromiseRecipients() public view returns(string[] memory)
     {
         // Retrieve the full list of pending promises for this user.
@@ -457,12 +465,12 @@ contract SolidPromise
         return allPendingPromises;
     }
 
+
     /**
      * This function helps in signining promises. It returns all of the indices the identify promises
      * for a single user and returns an array of unit.
      * @return An unit array containing all of the pending promises for a single user.
      */
-
     function viewAllPendingPromiseIndices() public view returns(uint[] memory)
     {
         // Retrieve the full list of pending promises for this user.
@@ -481,13 +489,13 @@ contract SolidPromise
     }
     /******************************Pending Promises Helpers End**********************************************/
 
+
     /******************************Signed Promises Helpers Start**********************************************/
     /**
      * This function helps in viewing promises. It prints all of the signed promises
      * for a single user and returns an array of strings.
      * @return A string array containing all of the signed promises for a single user.
      */
-
     function viewAllSignedPromises() public view returns(string[] memory)
     {
         // Retrieve the full list of signed promises for this user.
@@ -505,12 +513,12 @@ contract SolidPromise
         return allSignedPromises;
     }
 
+
     /**
      * This function helps in viewing promises. It prints all of the signed promise titles
      * for a single user and returns an array of strings.
      * @return A string array containing all of the signed promise titles for a single user.
      */
-
     function viewAllSignedPromiseTitles() public view returns(string[] memory)
     {
         // Retrieve the full list of signed promises for this user.
@@ -528,12 +536,12 @@ contract SolidPromise
         return allSignedPromises;
     }
 
+
     /**
      * This function helps in viewing promises. It prints all of the creators of signed promises
      * for a single user and returns an array of strings.
      * @return A string array containing all of the creators of signed promises for a single user.
      */
-
     function viewAllSignedPromiseBuilders() public view returns(string[] memory)
     {
         // Retrieve the full list of signed promises for this user.
@@ -551,12 +559,12 @@ contract SolidPromise
         return allSignedPromises;
     }
 
+
     /**
      * This function helps in viewing promises. It prints all of the recipients of signed promises
      * for a single user and returns an array of strings.
      * @return A string array containing all of the signed promises for a single user.
      */
-
     function viewAllSignedPromiseRecipients() public view returns(string[] memory)
     {
         // Retrieve the full list of signed promises for this user.
@@ -575,6 +583,7 @@ contract SolidPromise
     }
     /******************************Signed Promises Helpers End**********************************************/
 
+
     /******************************Rejected Promises Helpers Start******************************************/
     
     /**
@@ -582,7 +591,6 @@ contract SolidPromise
      * for a single user and returns an array of strings.
      * @return A string array containing all of the rejected promises for a single user.
      */
-
     function viewAllRejectedPromises() public view returns(string[] memory)
     {
         // Retrieve the full list of rejected promises for this user.
@@ -600,12 +608,12 @@ contract SolidPromise
         return allRejectedPromises;
     }
 
+
     /**
      * This function helps in viewing promises. It prints all of the rejected promise titles
      * for a single user and returns an array of strings.
      * @return A string array containing all of the rejected promise titles for a single user.
      */
-
     function viewAllRejectedPromiseTitles() public view returns(string[] memory)
     {
         // Retrieve the full list of rejected promises for this user.
@@ -623,12 +631,12 @@ contract SolidPromise
         return allRejectedPromises;
     }
 
+
     /**
      * This function helps in viewing promises. It prints all of the creators of rejected promises
      * for a single user and returns an array of strings.
      * @return A string array containing all of the creators of rejected promises for a single user.
      */
-
     function viewAllRejectedPromiseBuilders() public view returns(string[] memory)
     {
         // Retrieve the full list of rejected promises for this user.
@@ -646,12 +654,12 @@ contract SolidPromise
         return allRejectedPromises;
     }
 
+
     /**
      * This function helps in viewing promises. It prints all of the recipients of rejected promises
      * for a single user and returns an array of strings.
      * @return A string array containing all of the rejected promises for a single user.
      */
-
     function viewAllRejectedPromiseRecipients() public view returns(string[] memory)
     {
         // Retrieve the full list of rejected promises for this user.
@@ -669,6 +677,7 @@ contract SolidPromise
         return allRejectedPromises;
     }
     /******************************Rejected Promises Helpers End******************************************/
+
 
     /**
      * This function helps in converting an address to a string.

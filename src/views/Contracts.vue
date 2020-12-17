@@ -87,11 +87,11 @@ export default {
       return data;
     },
 
+
     /**
      * This function returns the list of the titles of the pending promises for a single user.
      * @returns An array of strings that contain Promise titles.
      */
-
     getAllPendingPromiseTitles() {
       let data = this.getContractData({
         contract: "SolidPromise",
@@ -106,7 +106,6 @@ export default {
      * This function returns the list of the creators of the pending promises for a single user.
      * @returns An array of strings that contain Promise titles.
      */
-
     getAllPendingPromiseBuilders() {
       let data = this.getContractData({
         contract: "SolidPromise",
@@ -116,11 +115,11 @@ export default {
       return data;
     },
 
+
     /**
      * This function returns the list of the recipients of the pending promises for a single user.
      * @returns An array of strings that contain Promise titles.
      */
-
     getAllPendingPromiseRecipients() {
       let data = this.getContractData({
         contract: "SolidPromise",
@@ -130,11 +129,11 @@ export default {
       return data;
     },
 
+
     /**
      * This function returns the list of the indices of the pending promises for a single user.
      * @returns An array of integers that contain Promise indices.
      */
-
     getAllPendingPromiseIndices() {
       let data = this.getContractData({
         contract: "SolidPromise",
@@ -145,6 +144,7 @@ export default {
     },
 
     /*************************End of Functions for Pending************************************************* */
+
 
     /**************************Functions for Signed Promises************************************************ */
 
@@ -162,11 +162,11 @@ export default {
       return data;
     },
 
+
     /**
      * This function returns the list of the titles of the signed promises for a single user.
      * @returns An array of strings that contain Promise titles.
      */
-
     getAllSignedPromiseTitles() {
       let data = this.getContractData({
         contract: "SolidPromise",
@@ -176,11 +176,11 @@ export default {
       return data;
     },
 
+
     /**
      * This function returns the list of the creators of the signed promises for a single user.
      * @returns An array of strings that contain Promise titles.
      */
-
     getAllSignedPromiseBuilders() {
       let data = this.getContractData({
         contract: "SolidPromise",
@@ -190,11 +190,11 @@ export default {
       return data;
     },
 
+
     /**
      * This function returns the list of the recipients of the signed promises for a single user.
      * @returns An array of strings that contain Promise titles.
      */
-
     getAllSignedPromiseRecipients() {
       let data = this.getContractData({
         contract: "SolidPromise",
@@ -204,6 +204,7 @@ export default {
       return data;
     },
     /*************************End of Functions for Signed************************************************* */
+
 
     /*************************Start of Functions for Rejected********************************************* */
     
@@ -221,11 +222,11 @@ export default {
       return data;
     },
 
+
     /**
      * This function returns the list of the titles of the rejected promises for a single user.
      * @returns An array of strings that contain Promise titles.
      */
-
     getAllRejectedPromiseTitles() {
       let data = this.getContractData({
         contract: "SolidPromise",
@@ -235,11 +236,11 @@ export default {
       return data;
     },
 
+
     /**
      * This function returns the list of the creators of the rejected promises for a single user.
      * @returns An array of strings that contain Promise titles.
      */
-
     getAllRejectedPromiseBuilders() {
       let data = this.getContractData({
         contract: "SolidPromise",
@@ -249,11 +250,11 @@ export default {
       return data;
     },
 
+
     /**
      * This function returns the list of the recipients of the rejected promises for a single user.
      * @returns An array of strings that contain Promise titles.
      */
-
     getAllRejectedPromiseRecipients() {
       let data = this.getContractData({
         contract: "SolidPromise",
@@ -264,6 +265,7 @@ export default {
     },
 
     /*************************End of Functions for Rejected************************************************* */
+
 
     // Utilities needed to transform bytes to strings
     utils() {
@@ -379,7 +381,7 @@ export default {
 </script>
 
 <style scoped>
-/** */
+
 h1 {
   padding-top: 50px;
 }
@@ -388,6 +390,7 @@ h1 {
   text-align: left;
   display: inline;
 }
+
 .pending {
   text-align: left;
 }
@@ -408,14 +411,12 @@ h1 {
 }
 
 .contract-list {
-  /* border:5px solid #b2d8d8; */
   border-width: 25%;
   text-align: left;
   background-color: #F0F0F0;
   border-radius: 5px;
   margin-bottom: 10px;
   padding: 5px 10px 5px 10px;
-  /**** */
   -moz-box-shadow: 0px 0px 15px #5c7789;
   -webkit-box-shadow: 0px 0px 15px #5c7789;
   box-shadow: 0px 0px 15px #5c7789;
@@ -424,16 +425,12 @@ h1 {
 
 .reject-button {
   background-color: darksalmon;
-  /* border: 1px solid black; */
-  /*  color: black; */
   color: rgb(48, 47, 47);
   font-weight: bold;
 }
 
 .sign-button {
   background-color: darkseagreen;
-  /* border: 1px solid black; */
-  /* color:black; */
   color: rgb(48, 47, 47);
   font-weight: bold;
 }
