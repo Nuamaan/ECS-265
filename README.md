@@ -7,7 +7,17 @@ Once installed, use Ganache's Quickstart or create your own workspace.
 Set up Metamask in Google Chrome or Mozilla Firefox and create a Custom RPC with:
 - Network Name: localhost 9545
 - New RPC URL: http://127.0.0.1:9545
-- Chain ID: 0x539
+
+To get the Chain ID, type in your console:
+```
+truffle develop
+```
+Once prompted, type:
+```
+> await web3.eth.getChainId();
+```
+The Chain ID should be shown, and simply input that number into Metamask's Chain ID field.
+
 
 Once the network is added, import the first few Ganache accounts into Metamask using the provided private keys for each account. The balance of each account in Ganache should now match the corresponding account balances in Metamask.
 
