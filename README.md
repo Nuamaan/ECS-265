@@ -8,6 +8,8 @@ Set up Metamask in Google Chrome or Mozilla Firefox and create a Custom RPC with
 - Network Name: localhost 9545
 - New RPC URL: http://127.0.0.1:9545
 
+Make sure your RPC Server in Ganache matches the RPC URL above. If not, go to settings and change Port Number to 9545 and check that Network ID is 5777.
+
 To get the Chain ID, type in your console:
 ```
 truffle develop
